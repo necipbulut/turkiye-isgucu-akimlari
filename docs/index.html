@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Düşen İşsizlik, Artan Atıl İşgücü</title>
+<meta name="description" content="Türkiye'de 2021–2026 işgücü akımları: işsizlik oranı düşerken atıl işgücü neden arttı? Rapor, grafikler ve etkileşimli akım haritası.">
+<meta property="og:title" content="Düşen İşsizlik, Artan Atıl İşgücü: Türkiye'de İşgücü Akımları, 2021–2026">
+<meta property="og:description" content="İşsizlik oranı düşerken atıl işgücü neden arttı? Akımlar, saatler ve katılım üzerinden bir çalışma notu.">
+<meta property="og:image" content="fig/R05_akim_diyagramlari.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column with wide figure plates; the three labour-market states (employed, unemployed,
+   out of the labour force) give the palette, so colour carries the same meaning on every page of the site. */
+:root {
+  --bg: #f4f3ef; --paper: #fffefb; --ink: #1c1e21; --ink-2: #555a61; --hair: #dcd9d1;
+  --e: #008c84; --u: #cf5a2e; --n: #8256ab; --voice: #f3eef8; --link: #0f5f9e;
+  --serif: "Source Serif 4", Cambria, "Times New Roman", serif;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #121417; --paper: #1a1d21; --ink: #e8e6e1; --ink-2: #a6abb2; --hair: #33373d;
+    --e: #1f9e96; --u: #e06a3a; --n: #9a78cc; --voice: #221d2b; --link: #7fb0ea; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #121417; --paper: #1a1d21; --ink: #e8e6e1; --ink-2: #a6abb2; --hair: #33373d;
+  --e: #1f9e96; --u: #e06a3a; --n: #9a78cc; --voice: #221d2b; --link: #7fb0ea; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--serif); font-size: 18px; line-height: 1.6; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 16px; padding-block: 34px 60px; display: grid; gap: 28px; }
+.col { max-width: 68ch; }
+header { display: grid; gap: 10px; }
+.kicker { font: 500 12.5px var(--sans); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); }
+h1 { font-size: clamp(30px, 4.6vw, 48px); line-height: 1.08; margin: 0; font-weight: 700; text-wrap: balance; letter-spacing: -.01em; }
+h1 .u { color: var(--u); } h1 .n { color: var(--n); }
+.sub { font-size: clamp(18px, 2.1vw, 21px); color: var(--ink-2); margin: 0; max-width: 60ch; }
+.by { font: 400 15px var(--sans); color: var(--ink-2); }
+.by b { color: var(--ink); font-weight: 600; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.cta a { font: 500 15px var(--sans); text-decoration: none; padding: 10px 16px; border-radius: 6px; border: 1px solid var(--hair); color: var(--ink); background: var(--paper); }
+.cta a.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.cta a:hover { border-color: var(--ink-2); }
+.cta a:focus-visible, a:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+.findings { background: var(--paper); border: 1px solid var(--hair); border-radius: 8px; padding: 18px 22px; }
+.findings h2 { font: 600 13px var(--sans); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 8px; }
+.findings ol { margin: 0; padding-left: 22px; display: grid; gap: 7px; font-size: 17px; }
+.findings b { font-weight: 600; }
+h2.sec { font-size: clamp(23px, 2.8vw, 30px); line-height: 1.2; margin: 6px 0 0; text-wrap: balance; }
+.num { font: 600 13px var(--sans); color: var(--ink-2); letter-spacing: .06em; display: block; margin-bottom: 2px; }
+section { display: grid; gap: 12px; }
+section p { margin: 0; }
+.plate { background: #ffffff; border: 1px solid var(--hair); border-radius: 8px; padding: 14px; }
+.plate img { width: 100%; height: auto; display: block; }
+.cap { font: 400 13.5px var(--sans); color: var(--ink-2); line-height: 1.45; margin-top: 2px; }
+.cap b { color: var(--ink); font-weight: 600; }
+.voice { font-family: var(--sans); font-size: 16px; line-height: 1.55; background: var(--voice); border-left: 3px solid var(--n); padding: 12px 16px; border-radius: 0 6px 6px 0; }
+.voice .who { display: block; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--n); margin-bottom: 3px; }
+.voice p { margin: 0; }
+.map-teaser { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; align-items: center; background: var(--paper); border: 1px solid var(--hair); border-radius: 8px; padding: 18px; }
+@media (max-width: 760px) { .map-teaser { grid-template-columns: minmax(0, 1fr); } }
+.map-teaser h2 { margin: 0 0 6px; font-size: 24px; }
+.map-teaser p { margin: 0 0 12px; font-size: 16.5px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font: 400 13.5px var(--sans); color: var(--ink-2); }
+.legend i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: -1px; }
+.data { font-family: var(--sans); font-size: 15px; line-height: 1.55; color: var(--ink-2); display: grid; gap: 8px; }
+.data h2 { font-family: var(--serif); color: var(--ink); font-size: 24px; margin: 0; }
+.data ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+a { color: var(--link); }
+footer { font: 400 13.5px var(--sans); color: var(--ink-2); border-top: 1px solid var(--hair); padding-top: 14px; display: grid; gap: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Çalışma notu · Türkiye · 2021–2026</div>
+    <h1>Düşen <span class="u">işsizlik</span>, artan <span class="n">atıl işgücü</span></h1>
+    <p class="sub">Türkiye'de işsizlik oranı 2021'den beri düşüyor; atıl işgücü oranı ise 2023'ten beri yükseliyor. Bu not ayrışmanın nereden geldiğini işgücü akımları, çalışma saatleri ve katılım üzerinden inceliyor.</p>
+    <div class="by"><b>Necip Bulut</b> · "Three Essays on Monetary Economics" doktora tezinin üçüncü makalesi için arka plan çalışması · Ekim 2026</div>
+    <div class="cta">
+      <a class="primary" href="isgucu_akimlari_raporu.pdf">Raporu oku (PDF, 12 sayfa)</a>
+      <a href="akim-haritasi.html">Etkileşimli akım haritası</a>
+      <a href="https://github.com/necipbulut/turkiye-isgucu-akimlari">Veri ve kod</a>
+    </div>
+  </header>
+
+  <div class="findings">
+    <h2>Ana bulgular</h2>
+    <ol>
+      <li>2022'de işsizlik %12,0'dan %10,4'e, atıl işgücü %24,4'ten %21,3'e indi. <b>Fark 2023 başında açılmaya başladı</b> ve 2025'te 21,4 puana çıktı.</li>
+      <li>Negatif reel faizli indirim evresinde işsizliği <b>iş yaratma</b> düşürdü. Yüksek reel faizli normalleşmede ise işsizlik <b>katılım düştüğü için</b> geriledi.</li>
+      <li>İşten ayrılanların işsizliğe gidenlerin payı %35'ten %28'e indi; <b>ayrılanların dörtte üçü işgücü dışına</b> gidiyor.</li>
+      <li>Çalışmak isteyenlerin oranı yüksek kaldı, katılım düştü. Aradaki açık, <b>iş aramayıp çalışmaya hazır bekleyen 2,45 milyon kişi</b>.</li>
+      <li>Kişi başı haftalık çalışma 43,3 saatten 41,7 saate indi, kısmi süreli çalışanların payı %10,9'dan %14,1'e çıktı.</li>
+      <li>Bu yıllarda işsizlik oranı emek piyasasının sıkılığını ölçmüyor; atıl işgücü, saatler ve akımlar daha iyi ölçü.</li>
+    </ol>
+  </div>
+
+  <section>
+    <span class="num">1 · İki oran</span>
+    <h2 class="sec">İşsizlik düşerken atıl işgücü yükseliyor</h2>
+    <p class="col">Atıl işgücü işsizlere iki grup ekler: istediğinden az saat çalışanlar ve çalışmaya hazır olduğu halde iş aramayanlar. 2022'de bütün göstergeler birlikte düştü; 2023'ten sonra iki oran ayrıştı. 2022'den 2025'e işsiz sayısı 0,6 milyon azaldı, eksik istihdam 2,6 milyon, potansiyel işgücü 2,2 milyon arttı.</p>
+    <div class="plate"><img src="fig/R01_issizlik_atil.png" alt="İşsizlik oranı ve atıl işgücü oranı, 2014–2026; TÜİK atıl işgücünün bileşenleri, 2021–2025" loading="lazy"></div>
+    <div class="cap"><b>Şekil 1.</b> İşsizlik ve atıl işgücü. Gri bant: negatif reel faiz dönemi (2021Q3–2024Q2). Kaynak: Eurostat, TÜİK.</div>
+  </section>
+
+  <div class="voice"><span class="who">Yazarın notu</span>
+    <p>Essay 3'ü yazmaya başlamadan önce konuyu negatif reel faiz döneminde büyüme ve istihdam olarak kurgulamıştım. Büyümeyi açıklayabiliyordum; istihdam tarafı yerine oturmamıştı. Önce katılım oranına baktım ama belirgin bir patern yakalayamadım. Sonra atıl işgücü ile işsizlik arasındaki farkın açıldığını fark ettim.</p>
+  </div>
+
+  <section>
+    <span class="num">2 · Akımlar</span>
+    <h2 class="sec">Her çeyrek milyonlarca kişi yer değiştiriyor</h2>
+    <p class="col">Stoklar durgun görünse de altında büyük bir hareket var. Her çeyrek işsizlerin yaklaşık üçte biri işgücü dışına çıkıyor; istihdam ile işgücü dışı arasında her yönde iki milyona yakın kişi yer değiştiriyor. Daire alanı stoku, ok kalınlığı o çeyrekte geçen kişi sayısını gösteriyor.</p>
+    <div class="plate"><img src="fig/R05_akim_diyagramlari.png" alt="Dört çeyrekte istihdam, işsiz ve işgücü dışı arasındaki akımlar" loading="lazy"></div>
+    <div class="cap"><b>Şekil 2.</b> İstihdam, işsiz ve işgücü dışı arasındaki çeyreklik akımlar (bin kişi). Taralı kısımlar atıl işgücüne giren gruplar. Kaynak: Eurostat lfsi_long_q.</div>
+  </section>
+
+  <div class="map-teaser">
+    <div>
+      <h2>Akımları zamanda oynat</h2>
+      <p>Etkileşimli haritada 2014'ten 2026'ya her çeyreği tek tek izleyebilir, kişi sayısı ile geçiş oranı arasında geçebilir, net akımları görebilirsin. Altında altı geçişin ısı haritası ve durağan işsizlik grafiği aynı zaman ekseninde.</p>
+      <div class="cta"><a class="primary" href="akim-haritasi.html">Haritayı aç</a></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--e)"></i>İstihdam</span>
+      <span><i style="background:var(--u)"></i>İşsiz</span>
+      <span><i style="background:var(--n)"></i>İşgücü dışı</span>
+    </div>
+  </div>
+
+  <section>
+    <span class="num">3 · Yön</span>
+    <h2 class="sec">İşini kaybeden işsiz değil, işgücü dışı görünüyor</h2>
+    <p class="col">İşten ayrılanların oranı azalmadı, arttı. Değişen, gittikleri yer. İşsizliğe gidenlerin payı %35'ten %28'e indi; işgücü dışından çıkanlar arasında iş aramaya başlayanların payı %38'den %32'ye düştü. Türkiye'de işsiz sayılmak için aktif iş aramak gerekiyor; işsizlik sigortasının kapsamı dar olduğundan arama yerine bekleme yaygın.</p>
+    <div class="plate"><img src="fig/R07_ayrilanlar_nereye.png" alt="İşten ayrılanların ve işsizlikten çıkanların gittiği yer, 2015–2026" loading="lazy"></div>
+    <div class="cap"><b>Şekil 3.</b> Akımların yönü, dört çeyrek ortalaması. 2021'deki boşluk anket yöntemi değişikliğinden. Kaynak: Eurostat.</div>
+    <div class="plate"><img src="fig/R06_akim_isi_haritasi.png" alt="Altı geçiş oranının 2014–2019 ortalamasından sapması" loading="lazy"></div>
+    <div class="cap"><b>Şekil 4.</b> Altı geçiş oranı, 2014–2019 ortalamasından sapma. "İşsiz → işgücü dışı" 2021'den beri sürekli ortalamanın üstünde.</div>
+  </section>
+
+  <section>
+    <span class="num">4 · Katılım</span>
+    <h2 class="sec">Çalışma isteği yüksek, iş arama düşük</h2>
+    <p class="col">Katılım oranı iki ters hareketin toplamı olduğu için tek başına patern vermiyor. Çalışmak isteyenlerin oranı 2021'den beri yükseldi ve yüksek kaldı; 2024'ten sonra katılım düştü. Aradaki açık, çalışmaya hazır ama iş aramayan kişiler. Kadınlarda bu açık daha geniş.</p>
+    <div class="plate"><img src="fig/R04_katilim_isteyenler.png" alt="Katılım oranı ve çalışmak isteyenlerin oranı, toplam ve kadınlar" loading="lazy"></div>
+    <div class="cap"><b>Şekil 5.</b> Katılım oranı ve çalışmak isteyenlerin oranı (15–74 yaş). Kaynak: Eurostat.</div>
+  </section>
+
+  <div class="voice"><span class="who">Yazarın notu</span>
+    <p>Katılım oranında patern bulamamamın nedeni bu ayrımmış. Katılım, iş arayan ya da çalışanları sayıyor; asıl eğilim ise çalışmak isteyenlerde. 2024'ten sonra değişen, bu isteğin iş aramaya ve işe dönüşmemesi.</p>
+  </div>
+
+  <section>
+    <span class="num">5 · Denge</span>
+    <h2 class="sec">Akımlar artık işsizliği aşağı itmiyor</h2>
+    <p class="col">Geçiş oranları sabit kalsaydı işsizliğin gideceği düzey olan durağan işsizlik oranı 2024 ortasından beri %8,2–8,6 aralığında yatay. 2023–2026'daki 1,5 puanlık düşüşün yaklaşık 1 puanı iş tarafından, yaklaşık 1 puanı iş arama sınırından geldi; işten işgücü dışına çıkışın artması düşüşü 0,6 puan frenledi.</p>
+    <div class="plate"><img src="fig/R09_duragan_kaynaklar.png" alt="Durağan işsizlik oranındaki değişimin akımlara göre kaynakları" loading="lazy"></div>
+    <div class="cap"><b>Şekil 6.</b> Durağan işsizlik oranındaki değişimin akımlara göre kaynakları. Kaynak: Eurostat lfsi_long_q.</div>
+  </section>
+
+  <section>
+    <span class="num">6 · Saatler</span>
+    <h2 class="sec">Ayarlamanın bir kısmı saatlerden geçti</h2>
+    <p class="col">Gevşemenin bir kısmı işten çıkarma değil saat kısıtlaması olarak göründü. Kişi başı haftalık çalışma 2023 ortasındaki 43,7 saatten 2026 başında 41,7 saate indi; normalleşmede kısmi süreli iş 1,06 milyon arttı, tam zamanlı iş yaklaşık 0,8 milyon azaldı.</p>
+    <div class="plate"><img src="fig/R10_saatler_kismi.png" alt="Haftalık fiili çalışma süresi ve kısmi süreli çalışanların payı" loading="lazy"></div>
+    <div class="cap"><b>Şekil 7.</b> Çalışma saatleri ve kısmi süreli çalışma. Kaynak: Eurostat.</div>
+  </section>
+
+  <div class="data">
+    <h2>Veri ve yöntem</h2>
+    <ul>
+      <li>TÜİK Hanehalkı İşgücü Anketi: temel göstergeler TCMB EVDS'ten; atıl işgücü bileşenleri, akımlar, saatler ve sektörler TÜİK'in Eurostat'a gönderdiği serilerden; yıllık atıl işgücü oranları TÜİK bültenlerinden. Veriler 6 Ekim 2026'da çekildi.</li>
+      <li>Yöntem: işgücü özdeşlikleri, atıl işgücü ile işsizlik arasındaki farkın ayrıştırması, üç durumlu Markov zinciriyle durağan işsizlik ve akım ayrıştırması.</li>
+      <li>2021Q1'de anket yöntemi değişti; akım serisinde o çeyrek yok ve bütün karşılaştırmalar 2021Q2'den başlıyor.</li>
+      <li>Bu bir çalışma notudur; mekanizmaların nedensel etkisi test edilmedi.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div>Necip Bulut · Ekim 2026 · <a href="https://github.com/necipbulut/turkiye-isgucu-akimlari">github.com/necipbulut/turkiye-isgucu-akimlari</a></div>
+    <div>Atıf: Bulut, N. (2026). <i>Düşen İşsizlik, Artan Atıl İşgücü: Türkiye'de İşgücü Akımları, 2021–2026</i>. Çalışma notu.</div>
+  </footer>
+</div>
+</body>
+</html>

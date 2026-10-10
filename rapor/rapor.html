@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Düşen İşsizlik, Artan Atıl İşgücü</title>
+<style>
+:root { --ink:#1c1e21; --ink2:#555a61; --hair:#d9d6ce; --e:#008c84; --u:#cf5a2e; --n:#8256ab; --tint:#f4f1ea; }
+@page { size: A4; margin: 20mm 21mm 20mm 21mm;
+  @bottom-center { content: counter(page); font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 8.5pt; color: #6b7076; }
+  @top-right { content: "Düşen işsizlik, artan atıl işgücü"; font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 8pt; color: #8a8f95; } }
+@page :first { @bottom-center { content: none; } @top-right { content: none; } }
+html { font-family: Cambria, "Times New Roman", serif; font-size: 10.6pt; line-height: 1.5; color: var(--ink); }
+body { margin: 0; }
+h1 { font-size: 23pt; line-height: 1.15; margin: 0 0 6pt; font-weight: 700; }
+h2 { font-size: 14pt; margin: 18pt 0 6pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 12pt 0 4pt; font-style: italic; font-weight: 600; break-after: avoid; }
+p { margin: 0 0 7pt; text-align: justify; hyphens: auto; orphans: 3; widows: 3; }
+.sans { font-family: "Segoe UI", Calibri, Arial, sans-serif; }
+.cover { display: flex; flex-direction: column; gap: 10pt; break-after: page; }
+.kicker { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 8.5pt; letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); }
+.subtitle { font-size: 13pt; color: var(--ink2); margin: 0; }
+.author { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 10pt; margin-top: 4pt; }
+.author b { font-weight: 600; }
+.abstract { border-top: 1.4pt solid var(--ink); border-bottom: .6pt solid var(--hair); padding: 8pt 0 4pt; margin-top: 8pt; }
+.abstract h2 { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 9pt; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 4pt; }
+.keybox { background: var(--tint); padding: 9pt 12pt; border-radius: 3pt; }
+.keybox h2 { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 9pt; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 4pt; }
+.keybox ol { margin: 0; padding-left: 14pt; }
+.keybox li { margin: 3pt 0; }
+.coverfig { margin-top: auto; }
+.voice { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 9.2pt; line-height: 1.45; border-left: 2.5pt solid var(--n); background: #f5f1f9; padding: 7pt 11pt; margin: 10pt 0; break-inside: avoid; }
+.voice .who { font-weight: 600; font-size: 8pt; letter-spacing: .07em; text-transform: uppercase; color: var(--n); display: block; margin-bottom: 2pt; }
+.voice p { text-align: left; margin: 0 0 4pt; }
+.voice p:last-child { margin-bottom: 0; }
+figure { margin: 10pt 0 12pt; break-inside: avoid; }
+figure img { width: 92%; display: block; margin: 0 auto; }
+figcaption { font-size: 9.6pt; margin-top: 4pt; }
+figcaption b { font-weight: 700; }
+.fn { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 7.8pt; color: var(--ink2); line-height: 1.4; margin-top: 3pt; text-align: left; }
+table { border-collapse: collapse; width: 100%; font-size: 9pt; font-variant-numeric: tabular-nums; }
+caption { caption-side: top; text-align: left; font-size: 9.6pt; margin-bottom: 4pt; }
+thead th { border-top: 1.2pt solid var(--ink); border-bottom: .7pt solid var(--ink); padding: 3pt 5pt; text-align: right; font-weight: 600; }
+thead th:first-child { text-align: left; }
+tbody td { padding: 2.2pt 5pt; text-align: right; }
+tbody td:first-child { text-align: left; }
+tbody tr:last-child td { border-bottom: 1.2pt solid var(--ink); }
+tr.grp td { font-style: italic; text-align: left; padding-top: 5pt; }
+tr.b td { font-weight: 600; }
+.tbl { break-inside: avoid; margin: 10pt 0 12pt; }
+table.mech td { text-align: left; vertical-align: top; }
+table.mech thead th { text-align: left; }
+.formula { font-size: 11pt; text-align: center; margin: 6pt 0 8pt; }
+.formula i { font-style: italic; }
+.refs p { padding-left: 1.4em; text-indent: -1.4em; font-size: 9.2pt; margin-bottom: 3pt; text-align: left; }
+.small { font-size: 9pt; }
+ul.tight { margin: 2pt 0 7pt; padding-left: 14pt; }
+ul.tight li { margin: 2pt 0; }
+a { color: inherit; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="kicker">Çalışma notu · Ekim 2026</div>
+  <h1>Düşen İşsizlik, Artan Atıl İşgücü: Türkiye'de İşgücü Akımları, 2021–2026</h1>
+  <p class="subtitle">Negatif reel faiz döneminde ve sonrasında emek piyasasına akımlar üzerinden bir bakış</p>
+  <div class="author"><b>Necip Bulut</b> · "Three Essays on Monetary Economics" doktora tezinin üçüncü makalesi için arka plan çalışması</div>
+
+  <div class="abstract">
+    <h2>Özet</h2>
+    <p>Türkiye'de işsizlik oranı 2021'den bu yana kesintisiz düştü; TÜİK'in atıl işgücü oranı ise 2022'den sonra yükseldi. İki oran arasındaki fark 2022'de 10,9 puandı, 2025'te 21,4 puana çıktı. Bu not farkın nereden geldiğini işgücü özdeşlikleri ve anketin panel kısmından hesaplanan işgücü akımlarıyla inceliyor. Negatif reel faizli indirim evresinde (2021Q3–2023Q2) büyüme istihdam yoğundu ve bütün atıl işgücü göstergeleri birlikte düştü. Fark 2022 sonunda en dar düzeyindeydi. Genişlemenin yarısı NRIR döneminin son altı çeyreğinde, yarısı yüksek reel faizli normalleşmede oldu. 2023'ten sonra işten ayrılanların artan bir kısmı işsizliğe değil işgücü dışına gitti, işgücü dışından iş aramaya başlayanlar azaldı. Kişi başı çalışma saati düştü, kısmi süreli iş arttı, çalışmak isteyip iş aramayanların sayısı 2,45 milyon arttı. Bu yıllarda işsizlik oranı emek piyasasının sıkılığını ölçmüyor.</p>
+  </div>
+
+  <div class="keybox sans">
+    <h2>Ana bulgular</h2>
+    <ol>
+      <li>2022'de işsizlik %12,0'dan %10,4'e, atıl işgücü %24,4'ten %21,3'e indi. Fark 2023 başında açılmaya başladı; 2025 ortasından beri yatay.</li>
+      <li>İndirim evresinde işsizliği iş yaratma düşürdü: istihdam oranı 3,7 puan arttı. Normalleşmede işsizlik, katılım düştüğü için geriledi.</li>
+      <li>İşten ayrılanların işsizliğe gidenlerin payı %35'ten %28'e indi; ayrılanların yaklaşık dörtte üçü artık işgücü dışına gidiyor.</li>
+      <li>Çalışmak isteyenlerin oranı 2024'ten sonra yüksek kaldı, katılım düştü: aradaki açık, iş aramayıp çalışmaya hazır olanlar.</li>
+      <li>Durağan işsizlik oranı 2024 ortasından beri %8,2–8,6 aralığında yatay. Akımlar artık işsizliği aşağı itmiyor.</li>
+      <li>Ayarlama saatlerden geçti: kişi başı haftalık çalışma 43,3 saatten 41,7 saate indi, kısmi süreli çalışanların payı %10,9'dan %14,1'e çıktı.</li>
+    </ol>
+  </div>
+
+</section>
+
+<h2>1. Giriş</h2>
+<p>Türkiye 2021Q3–2024Q2 arasında derin ve uzun bir negatif reel faiz dönemi yaşadı. Merkez bankası Eylül 2021'de enflasyon %19 civarındayken politika faizini indirmeye başladı ve indirimleri Şubat 2023'e kadar sürdürdü. Haziran 2023'te politika döndü ve reel faiz 2024'te yüksek bir pozitif düzeye çıktı. Bu not dönemi V2 taslağındaki evrelerle izliyor: indirim evresi (2021Q3–2023Q2), sıkılaştırma evresi (2023Q3–2024Q2), ikisinin toplamı olan NRIR dönemi ve normalleşme (2024Q3–2026Q1).</p>
+<p>Bu yıllarda emek piyasasının manşet göstergesi olumlu bir hikâye anlattı: işsizlik oranı %12'den %8'in altına indi. Ama daha geniş ölçü olan atıl işgücü oranı 2022'den sonra yükseldi ve 2025'te %29,7'ye ulaştı. Notun sorusu bu ayrışmanın nereden geldiği. Cevabı üç araçla arıyorum: işgücü stoklarını ve oranlarını bağlayan özdeşlikler, anketin panel kısmından hesaplanan işgücü akımları (istihdam, işsizlik ve işgücü dışı arasındaki geçişler) ve çalışma saatleri.</p>
+
+<div class="voice"><span class="who">Yazarın notu</span>
+<p>Essay 3'ü yazmaya başlamadan önce konuyu negatif reel faiz döneminde büyüme ve istihdam olarak kurgulamıştım. Büyümeyi varlık fiyatı enflasyonuyla büyüme modeli ve secular stagnation literatürüyle açıklayabiliyordum; istihdam tarafı ise kafamda yerine oturmamıştı. Önce işgücüne katılma oranına baktım ama belirgin bir patern yakalayamadım. Sonra atıl işgücü ile işsizlik oranı arasındaki farkın açıldığını fark ettim. Bu not o farkın izini sürüyor.</p>
+</div>
+
+<h2>2. Veri ve kavramlar</h2>
+<p><b>Veri.</b> TÜİK'in Hanehalkı İşgücü Anketi üç kaynaktan kullanıldı. Temel göstergeler (15 ve daha yukarı yaş, aylık, mevsimsellikten arındırılmış) TCMB EVDS'ten alındı. Atıl işgücünün bileşenleri, işgücü akımları, çalışma saatleri, sektör ve statü kırılımları için TÜİK'in aynı anketten Eurostat'a gönderdiği seriler kullanıldı (15–74 yaş, 2026Q2'ye kadar). TÜİK'in kendi yıllık atıl işgücü oranları 2021–2025 yıllık bültenlerinden alındı. 2021Q1'de anket yöntemi değişti; bu yüzden bütün karşılaştırmalar 2021Q2'den başlıyor ve akım serisinde 2021Q1 bulunmuyor.</p>
+<p><b>Özdeşlikler.</b> Nüfus (<i>POP</i>) üç duruma ayrılır: istihdam (<i>E</i>), işsiz (<i>U</i>) ve işgücü dışı (<i>N</i>). İşgücü <i>LF = E + U</i>'dur. İşsizlik oranı istihdam oranı (<i>ER</i>) ve katılım oranıyla (<i>LFPR</i>) şöyle bağlanır:</p>
+<p class="formula"><i>u</i> = <i>U</i> / <i>LF</i> = 1 − <i>ER</i> / <i>LFPR</i></p>
+<p>Bu eşitlik işsizlikteki değişimi iki parçaya ayırır: istihdam oranının katkısı ve katılımın katkısı. İşsizlik iş yaratılınca da düşer, insanlar işgücünden çıkınca da.</p>
+<p>Atıl işgücü ölçüsü (ILO 2013) işsizlere iki grup ekler. <b>Zamana bağlı eksik istihdam</b> (<i>TRU</i>): TÜİK tanımında referans haftasında fiilen 40 saatten az çalışan, daha fazla çalışmak isteyen ve buna hazır olanlar. <b>Potansiyel işgücü</b> (<i>PLF</i>): iş aramayan ama çalışmaya hazır olanlar ile iş arayan ama hemen başlayamayacak olanlar. TÜİK'in atıl işgücü oranı ile işsizlik oranı arasındaki fark yalnız bu iki gruba bağlıdır:</p>
+<p class="formula"><i>LU</i>4 − <i>u</i> = <i>TRU</i> / <i>ELF</i> + (1 − <i>u</i>) · <i>PLF</i> / <i>ELF</i>,&nbsp;&nbsp; <i>ELF</i> = <i>LF</i> + <i>PLF</i></p>
+<p>Bir işsiz iş aramayı bırakıp çalışmaya hazır kalırsa işsizlik oranı düşer, atıl işgücü oranı değişmez. Bir çalışanın saati 40'ın altına iner ve daha çok çalışmak isterse işsizlik oranı değişmez, atıl işgücü oranı yükselir. Her iki durumda da fark büyür.</p>
+<p><b>Akımlar ve durağan işsizlik.</b> Her çeyrek altı geçiş olur: istihdamdan işsizliğe ve işgücü dışına, işsizlikten istihdama ve işgücü dışına, işgücü dışından istihdama ve işsizliğe. Bu geçiş oranları sabit kalsaydı işsizlik oranının gideceği düzey <b>durağan işsizlik oranıdır</b>; üç durumlu bir Markov zincirinin durağan dağılımından hesaplanır. Bir akımı tek başına değiştirip ötekileri sabit tutarak durağan oranın değişimi akımlara ayrıştırılabilir.</p>
+
+<h2>3. Bulgular</h2>
+<h3>3.1 İşsizlik ve atıl işgücü ayrışıyor</h3>
+<p>Şekil 1 iki oranı birlikte gösteriyor. 2022'de ikisi birlikte düştü. 2023 başından sonra işsizlik oranı düşmeye devam ederken atıl işgücü oranı yükseldi. AB tanımında eksik istihdam yalnız kısmi süreli çalışanları kapsadığı için Eurostat'ın oranı TÜİK'inkinden düşük, ama iki ölçü aynı zamanlamayı veriyor.</p>
+<figure>
+  <img src="../figurler/R01_issizlik_atil.png" alt="İşsizlik oranı ve atıl işgücü oranı">
+  <figcaption><b>Şekil 1.</b> İşsizlik ve atıl işgücü</figcaption>
+  <div class="fn">Kaynak: Eurostat (lfsi_sla_q, lfsi_emp_q; 15–74 yaş, mevsimsellikten arındırılmış) ve TÜİK yıllık bültenleri. Gri bant NRIR dönemi (2021Q3–2024Q2), kesikli çizgi politika dönüşü (2023Q2 sonu). (b) panelindeki bileşenler bültenlerdeki LU2 ve LU3 oranlarından geri hesaplandı.</div>
+</figure>
+
+<div class="tbl">
+<table>
+<caption><b>Tablo 1.</b> TÜİK atıl işgücü göstergeleri, yıllık</caption>
+<thead><tr><th></th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr></thead>
+<tbody>
+<tr class="grp"><td colspan="6">Bin kişi</td></tr>
+<tr><td>İstihdam</td><td>28.797</td><td>30.752</td><td>31.632</td><td>32.620</td><td>32.566</td></tr>
+<tr><td>İşsiz</td><td>3.919</td><td>3.582</td><td>3.264</td><td>3.113</td><td>2.966</td></tr>
+<tr><td>Zamana bağlı eksik istihdam</td><td>1.570</td><td>1.442</td><td>2.094</td><td>3.359</td><td>4.015</td></tr>
+<tr><td>Potansiyel işgücü</td><td>3.280</td><td>2.896</td><td>3.353</td><td>4.242</td><td>5.125</td></tr>
+<tr class="grp"><td colspan="6">Oranlar (%)</td></tr>
+<tr><td>İşsizlik oranı</td><td>12,0</td><td>10,4</td><td>9,4</td><td>8,7</td><td>8,3</td></tr>
+<tr><td>Atıl işgücü oranı (LU4)</td><td>24,4</td><td>21,3</td><td>22,8</td><td>26,7</td><td>29,7</td></tr>
+<tr class="b"><td>Fark (puan)</td><td>12,4</td><td>10,9</td><td>13,4</td><td>18,0</td><td>21,4</td></tr>
+<tr><td>&emsp;eksik istihdamdan</td><td>4,4</td><td>3,9</td><td>5,5</td><td>8,4</td><td>9,9</td></tr>
+<tr><td>&emsp;potansiyel işgücünden</td><td>8,0</td><td>7,0</td><td>7,9</td><td>9,7</td><td>11,6</td></tr>
+</tbody></table>
+<div class="fn">Kaynak: TÜİK, İşgücü İstatistikleri yıllık bültenleri. Eksik istihdam ve potansiyel işgücü bültenlerdeki LU2 ve LU3 oranlarından geri hesaplandı; bu değerlerle bulunan LU4 bültendekiyle 0,1 puan içinde örtüşüyor.</div>
+</div>
+
+<p>2022'den 2025'e işsiz sayısı 0,62 milyon azaldı; zamana bağlı eksik istihdam 2,57 milyon, potansiyel işgücü 2,23 milyon arttı. Farktaki artışın yaklaşık %57'si eksik istihdamdan, %43'ü potansiyel işgücünden geliyor. Şekil 2 aynı ayrıştırmayı çeyreklik AB serisinde gösteriyor. Fark 2022Q4'te 8,5 puanla en düşük düzeyindeydi; 2024Q2'de 12,4, 2026Q2'de 16,7 puan.</p>
+<figure>
+  <img src="../figurler/R02_fark_bilesenleri.png" alt="Farkın bileşenleri">
+  <figcaption><b>Şekil 2.</b> Atıl işgücü ile işsizlik oranı arasındaki farkın bileşenleri, çeyreklik</figcaption>
+  <div class="fn">Kaynak: Eurostat lfsi_sla_q (AB tanımı, 15–74 yaş, mevsimsellikten arındırılmış). Fark = eksik istihdam / genişletilmiş işgücü + (1 − u) × potansiyel işgücü / genişletilmiş işgücü.</div>
+</figure>
+
+<h3>3.2 İşsizlik neden düştü: iş mi, katılım mı?</h3>
+<p>Şekil 3 işsizlik oranındaki değişimi istihdam oranının ve katılımın katkılarına ayırıyor. İndirim evresinde işsizlik 2,9 puan düştü. Bunu istihdam oranındaki artış sağladı (−7,2 puan); katılımın artması düşüşü 4,3 puan frenledi. Sıkılaştırma evresinde aynı yapı daha küçük ölçekte sürdü. Normalleşmede tablo tersine döndü: istihdam oranı düştü ve işsizliği 1,9 puan artırıcı yönde çalıştı, ama katılım da düştüğü için işsizlik 0,5 puan geriledi. Bu evrede işsizlikteki düşüşün tamamı iş yaratmadan geldi.</p>
+<figure>
+  <img src="../figurler/R03_issizlik_ayristirma.png" alt="İşsizlik oranındaki değişimin kaynağı">
+  <figcaption><b>Şekil 3.</b> İşsizlik oranındaki değişimin kaynağı, evrelere göre</figcaption>
+  <div class="fn">Kaynak: TÜİK (EVDS, 15+ yaş, mevsimsellikten arındırılmış). Ayrıştırma: ln(1 − u) = ln ER − ln LFPR. İstihdam oranındaki artış işsizliği düşürür (eksi), katılımdaki artış yükseltir (artı). Değişimler evreden önceki son çeyrekten evrenin son çeyreğine.</div>
+</figure>
+
+<h3>3.3 Katılım: çalışmak isteyenler ile iş arayanlar</h3>
+<p>Katılım oranı tek başına belirgin bir patern vermiyor, çünkü iki ters hareketin toplamı. Katılım oranını çalışmak isteyenlerin oranından (işgücü artı çalışmaya hazır olanlar) iş aramayıp çalışmaya hazır olanların oranı çıkarılarak yazmak bu iki hareketi ayırıyor (Şekil 4). 2022 sonundan 2024 ortasına çalışmak istemeyen işgücü dışı nüfus 1,35 milyon azaldı; bunun bir kısmı işgücüne girdi, daha büyük kısmı çalışmak isteyip aramayanlara geçti. 2024 ortasından 2026 başına katılım 1,6 puan düştü, ama çalışmak isteyenlerin oranı düşmedi. İşgücü 0,68 milyon azalırken çalışmak isteyip aramayanlar 1,32 milyon arttı; çalışmak istemeyenler yerinde saydı. Kadınlarda aynı şekil daha belirgin: çalışmak isteyen kadınların oranı 2021Q2'deki %40,4'ten %48'e çıktı, katılımları ise 2024'teki %38,9'dan %37,6'ya geriledi.</p>
+<figure>
+  <img src="../figurler/R04_katilim_isteyenler.png" alt="Katılım oranı ve çalışmak isteyenler">
+  <figcaption><b>Şekil 4.</b> Katılım oranı ve çalışmak isteyenlerin oranı</figcaption>
+  <div class="fn">Kaynak: Eurostat lfsi_emp_q ve lfsi_sla_q (15–74 yaş, mevsimsellikten arındırılmış). Çalışmak isteyenler = işgücü + potansiyel işgücü. 2021Q1'deki yöntem değişikliği potansiyel işgücünün düzeyini etkiliyor; 2021 öncesiyle düzey karşılaştırması dikkatle yapılmalı.</div>
+</figure>
+
+<div class="voice"><span class="who">Yazarın notu</span>
+<p>Katılım oranında patern bulamamamın nedeni bu ayrımmış. Katılım, iş arayan ya da çalışanları sayıyor; asıl eğilim ise çalışmak isteyenlerde. Çalışma isteği 2021'den beri neredeyse kesintisiz arttı ve yüksek kaldı. 2024'ten sonra değişen, bu isteğin iş aramaya ve işe dönüşmemesi.</p>
+</div>
+
+<h3>3.4 İşgücü akımları: işten ayrılanlar nereye gidiyor?</h3>
+<p>Akımlar, stoklarda görünmeyen hareketi gösteriyor. Şekil 5 dört kritik çeyrekte üç durum arasındaki geçişleri çiziyor. Türkiye'de işsizlik ile işgücü dışı arasındaki sınır çok geçirgen: her çeyrek işsizlerin yaklaşık üçte biri işgücü dışına çıkıyor, bir milyona yakın kişi de işgücü dışından iş aramaya başlıyor. İstihdam ile işgücü dışı arasında ise her çeyrek her iki yönde 1,7–2,3 milyon kişi yer değiştiriyor.</p>
+<figure>
+  <img src="../figurler/R05_akim_diyagramlari.png" alt="Akım diyagramları">
+  <figcaption><b>Şekil 5.</b> İstihdam, işsiz ve işgücü dışı arasındaki çeyreklik akımlar (bin kişi)</figcaption>
+  <div class="fn">Kaynak: Eurostat lfsi_long_q (anketin panel kısmı, 15–74 yaş, mevsimsellikten arındırılmış). Ok rengi gidilen durumu, kalınlığı bir önceki çeyrekten o çeyreğe geçen kişi sayısını gösteriyor. Daire alanları stoklarla orantılı; istihdamın içindeki taralı daire kısmi süreli çalışıp daha fazla çalışmak isteyenleri, işgücü dışının içindeki taralı daire çalışmaya hazır olanları gösteriyor. Panel akımları stok değişimlerini tam olarak toplamaz. Etkileşimli sürümü: akım haritası (bkz. Ek).</div>
+</figure>
+<p>Şekil 6 altı geçiş oranının hepsini 2014–2026 boyunca, 2014–2019 ortalamasından sapma olarak gösteriyor. İki satır öne çıkıyor. "İşsiz → işgücü dışı" 2021'den beri sürekli ortalamanın üstünde: işsizler daha sık iş aramayı bırakıyor. "İstihdam → işsiz" ise ortalamanın altında: işini kaybedenler daha az işsiz sayılıyor. "İşgücü dışı → işsiz" 2024'ten sonra ortalamaya indi: iş aramaya başlayanlar azaldı.</p>
+<figure>
+  <img src="../figurler/R06_akim_isi_haritasi.png" alt="Altı geçişin ısı haritası">
+  <figcaption><b>Şekil 6.</b> Altı geçiş oranı, 2014–2019 ortalamasından sapma</figcaption>
+  <div class="fn">Kaynak: Eurostat lfsi_long_q. Her hücre bir çeyrek; turuncu ortalamanın üstünü, mavi altını gösteriyor. Çerçeve NRIR dönemi, kesikli çizgi politika dönüşü; taralı sütun 2021Q1 (veri yok).</div>
+</figure>
+<p>Asıl ilginç olan işten ayrılmalar. Her çeyrek işten ayrılanların istihdama oranı azalmadı, arttı: %8,75'ten %9,40'a (dört çeyrek ortalaması, 2022Q4–2026Q2). Değişen, ayrılanların nereye gittiği. İşsizliğe gidenlerin payı %35'ten %28'e indi (Şekil 7). İşgücü dışından çıkanlar arasında iş aramaya başlayanların payı da %38'den %32'ye düştü. İşini kaybeden çoğunlukla işsiz sayılmıyor; işgücü dışında, çoğu zaman çalışmaya hazır olarak bekliyor.</p>
+<figure>
+  <img src="../figurler/R07_ayrilanlar_nereye.png" alt="Ayrılanların gittiği yer">
+  <figcaption><b>Şekil 7.</b> Akımların yönü: işten ayrılanlar, işsizlikten ve işgücü dışından çıkanlar nereye gidiyor?</figcaption>
+  <div class="fn">Kaynak: Eurostat lfsi_long_q, bin kişi, dört çeyrek ortalaması; 2021'deki boşluk anket yöntemi değişikliğinden.</div>
+</figure>
+
+<h3>3.5 Durağan işsizlik</h3>
+<p>Durağan işsizlik oranı, akımların işsizliği nereye götürdüğünü gösteriyor (Şekil 8). 2021'den 2024 ortasına hızla düştü, sonra 8,2–8,6 aralığında yataylaştı; gerçekleşen oran ona ulaştı. Şekil 9 düşüşü akımlara ayırıyor. 2023–2026'da durağan oran 9,7'den 8,2'ye indi. Bunun yaklaşık 1 puanı iş tarafından geldi: işten işsizliğe geçiş azaldı (−0,65 puan), işsizlerin iş bulma oranı arttı (−0,34). Yaklaşık 1 puanı da iş arama sınırından geldi: işgücü dışından iş aramaya başlayanlar azaldı (−0,65), işsizler daha çok işgücünden çıktı (−0,32). İşten işgücü dışına çıkışın artması ise oranı 0,6 puan yukarı itti. 2021–2026'nın tamamında düşüşün çoğu ilk iki yıldaki toparlanmadan, iş tarafından geliyor; ancak başlangıç çeyreği 2021Q2 bir kapanma çeyreği olduğu için bu pencere düşüşü abartıyor.</p>
+<figure>
+  <img src="../figurler/R08_duragan_issizlik.png" alt="Durağan ve gerçekleşen işsizlik">
+  <figcaption><b>Şekil 8.</b> Durağan işsizlik, gerçekleşen işsizlik ve atıl işgücü</figcaption>
+  <div class="fn">Kaynak: Eurostat. Durağan işsizlik oranı o çeyrekte biten dört çeyreğin ortalama geçiş oranlarından hesaplandı; 2021'deki boşluk anket yöntemi değişikliğinden.</div>
+</figure>
+<figure>
+  <img src="../figurler/R09_duragan_kaynaklar.png" alt="Durağan işsizlikteki düşüşün kaynakları">
+  <figcaption><b>Şekil 9.</b> Durağan işsizlik oranındaki değişimin akımlara göre kaynakları</figcaption>
+  <div class="fn">Kaynak: Eurostat lfsi_long_q. 2023–2026: 2022Q4'ten 2026Q2'ye, dört çeyrek ortalamaları. 2021–2026: 2021Q2'den 2026Q2'ye, tek çeyrek (2021Q1 verisi olmadığından dört çeyrek ortalaması 2021Q2'de hesaplanamıyor). Her akım tek başına başlangıç değerinden bitiş değerine götürülüp iki sıranın ortalaması alındı.</div>
+</figure>
+
+<h3>3.6 Saatler, kısmi süreli iş ve verim</h3>
+<p>Ayarlamanın ikinci kanalı saatler. Kişi başı haftalık fiili çalışma 2023 ortasında 43,7 saatti, 2026 başında 41,7 saate indi (Şekil 10). 2015–2019'da da yılda 0,4 saatlik bir düşüş eğilimi vardı, ama 2024Q2–2026Q1'deki düşüş yılda 0,9 saat. Kısmi süreli çalışanların payı %10,9'dan %14,1'e çıktı: normalleşmede kısmi süreli iş 1,06 milyon arttı, tam zamanlı iş yaklaşık 0,8 milyon azaldı. TCMB'ye göre 2024'te saatler bütün sektörlerde düştü, en çok kayıt dışı çalışanlarda.</p>
+<figure>
+  <img src="../figurler/R10_saatler_kismi.png" alt="Çalışma saatleri ve kısmi süreli çalışma">
+  <figcaption><b>Şekil 10.</b> Çalışma saatleri ve kısmi süreli çalışma</figcaption>
+  <div class="fn">Kaynak: Eurostat lfsq_ewhais ve lfsq_eftpt (15+ yaş, arındırılmamış, dört çeyrek ortalaması).</div>
+</figure>
+<p>İndirim evresinde istihdam GSYH'ye yakın hızda büyüdü: yılda %5,4–6,2, GSYH %6,0 (Şekil 11). Bu evrede çalışan başına GSYH yerinde saydı. Ancak bu sonuç başlangıca duyarlı; pandemi öncesine (2019Q4) göre 2023Q2'ye saat başına GSYH yılda %3,1 arttı, 2015–2019 ortalamasına (%3,6) yakın. Normalleşmede ise GSYH yılda %3,4 büyürken toplam çalışılan saat yılda %1,7 azaldı.</p>
+<figure>
+  <img src="../figurler/R11_uretim_istihdam_saat.png" alt="Üretim, istihdam ve saat">
+  <figcaption><b>Şekil 11.</b> Üretim, istihdam ve toplam çalışılan saat</figcaption>
+  <div class="fn">Kaynak: TÜİK zincirlenmiş hacim GSYH (EVDS, dört çeyrek toplamı); Eurostat istihdam ve saatler (dört çeyrek ortalaması). Toplam saat = istihdam × kişi başı fiili saat. Normalleşmede saat başına verimin hızlı artışı kısmen ölçümden gelebilir.</div>
+</figure>
+
+<h3>3.7 Sektörler</h3>
+<p>İndirim evresinde istihdam artışının dörtte biri imalattan geldi; ticaret, kamu-eğitim-sağlık ve konaklama-yiyecek onu izledi (Şekil 12). Sıkılaştırmada imalat istihdamı durdu, normalleşmede 122 bin kişi azaldı; tarım da 163 bin kişi kaybetti.</p>
+<figure>
+  <img src="../figurler/R12_sektorler.png" alt="Sektörlere göre istihdam değişimi">
+  <figcaption><b>Şekil 12.</b> Sektörlere göre istihdamdaki değişim</figcaption>
+  <div class="fn">Kaynak: Eurostat lfsq_egan2 (NACE Rev. 2, 15+ yaş, dört çeyrek ortalaması). Sektör kırılımı 2025Q4'te bitiyor.</div>
+</figure>
+
+<h2>4. Ne olmuş olabilir?</h2>
+<p>Veriler üç aşamalı bir hikâye anlatıyor. Aşamalar politika evreleriyle tam örtüşmüyor.</p>
+<p><b>Aşama 1, 2021Q3–2022Q4: istihdam yoğun toparlanma.</b> Negatif reel faiz, ucuz kredi ve zayıf lira altında talep hızla büyüdü. İmalat, ticaret, konaklama ve kamu hizmetleri işçi aldı. İşsizlik ve potansiyel işgücü geriledi, katılım arttı. Pandemiden çıkış da bu toparlanmanın bir parçası.</p>
+<p><b>Aşama 2, 2023Q1–2024Q2: kırılma.</b> İşsizlik düşmeye ve istihdam artmaya devam etti, ama potansiyel işgücü ve eksik istihdam yükselmeye başladı. Zamanlama birkaç olayla çakışıyor: Şubat 2023 depremi, EYT düzenlemesiyle erken emeklilik, Mayıs 2023 seçimleri ve Haziran 2023'teki politika dönüşü. Toplu veriyle bunlar birbirinden ayrılamıyor.</p>
+<p><b>Aşama 3, 2024Q3–2026: saklı gevşeme.</b> Yüksek reel faiz döneminde GSYH büyümeye devam etti ama istihdam durdu, saatler düştü, katılım geriledi. Tam zamanlı iş azaldı, kısmi süreli iş arttı. İşten ayrılanlar arttı ama işsiz değil işgücü dışı göründü. Durağan işsizlik yataylaştı; atıl işgücü yükselmeye devam etti.</p>
+
+<div class="tbl">
+<table class="mech">
+<caption><b>Tablo 2.</b> Aday mekanizmalar ve veri</caption>
+<thead><tr><th style="width:27%">Mekanizma</th><th style="width:28%">Veride ne beklenir</th><th style="width:30%">Veri ne diyor</th><th>Değerlendirme</th></tr></thead>
+<tbody>
+<tr><td>Talep kaynaklı istihdam artışı (varlık fiyatı ve tüketimle büyüme)</td><td>İstihdam ve katılım artar; işsizlik ve atıl işgücü birlikte düşer</td><td>2022'de hepsi gerçekleşti</td><td>Aşama 1 ile uyumlu</td></tr>
+<tr><td>Ek işçi etkisi: enflasyon hane gelirini aşındırınca ikinci kişi işgücüne girer</td><td>Yüksek enflasyonda kadın katılımı ve çalışma isteği artar</td><td>Kadın katılımı 2021Q2–2024Q2 +4,9 puan; çalışma isteği yüksek kaldı</td><td>Uyumlu; nedensellik gösterilmedi</td></tr>
+<tr><td>Saat marjında ayarlama, emek istifçiliği (kıdem tazminatı, asgari ücret)</td><td>Saatler düşer, kısmi süreli iş ve eksik istihdam artar</td><td>Saat −1,6 saat, kısmi süreli +1,06 milyon; işten işsizliğe geçiş düşük</td><td>Aşama 3 ile uyumlu</td></tr>
+<tr><td>İşgücünden çıkış ve iş aramama</td><td>Potansiyel işgücü artar, işsizler işgücünden çıkar, katılım düşer</td><td>Çalışmaya hazır ama aramayanlar +2,45 milyon; ayrılanların çoğu işgücü dışına</td><td>Aşama 3 ile uyumlu</td></tr>
+<tr><td>Sanayide daralma, reel değerlenme</td><td>İmalat istihdamı ve saatleri düşer</td><td>İmalat 2024Q2–2025Q4'te −122 bin</td><td>Kısmen</td></tr>
+<tr><td>Tek seferlik şoklar: deprem, EYT</td><td>2023'te işgücü dışında sıçrama</td><td>Kırılma 2023 başında; hastalık nedeni kademeli arttı</td><td>Olası; ayrıştırılamıyor</td></tr>
+<tr><td>Ölçüm: 40 saat eşiği, bayramlar, 2021 yöntem değişikliği</td><td>Artış yalnız TÜİK tanımında görünür</td><td>Artış AB tanımında ve saatlerde de var</td><td>Tek başına açıklama değil</td></tr>
+</tbody></table>
+<div class="fn">"Uyumlu", mekanizmanın veriyle çelişmediğini söyler, onu kanıtlamaz. Mekanizmaların çoğu birbirini dışlamıyor.</div>
+</div>
+
+<p>Gevşemenin açık işsizlik olarak görünmemesinin kurumsal nedenleri var. Türkiye'de işsiz sayılmak için son dört haftada aktif iş aramak gerekiyor; işsizlik sigortasının kapsamı dar olduğundan iş aramanın getirisi düşük. Kıdem tazminatı işten çıkarmayı pahalı kılıyor; firmalar işçiyi tutup saati kısmayı tercih edebiliyor. Asgari ücret tarım dışı istihdamın %40'ından fazlasını doğrudan bağlıyor (IMF 2026); hızlı asgari ücret artışları saat başı maliyeti doğrudan yükseltti. Kayıt dışı çalışanlar ve kendi hesabına çalışanlar ise talep zayıflığını ilk saatlerinde hissediyor.</p>
+
+<h2>5. Literatürle bağlantı</h2>
+<p><b>Ölçüm.</b> ILO'nun 2013 kararı döngünün farklı evrelerini görmek için işsizliğin yanında eksik istihdama ve potansiyel işgücüne bakılmasını ister. Okun (1973, s. 208) soğuk bir ekonomide işsizliğin "buzdağının tepesi" olduğunu söyler: su altında iş aramadığı için işsiz sayılmayanlar, kısa çalışma haftaları ve kaybedilen verim vardır. Bell ve Blanchflower (2021, s. 56) Büyük Durgunluk sonrasında ücretleri işsizlikten çok eksik istihdamın belirlediğini gösterir. Elsby, Hobijn ve Şahin (2015, s. 64) ABD'de işsizlik dalgalanmalarının yaklaşık üçte birinin işgücüne giriş-çıkış akımlarından geldiğini bulur.</p>
+<p><b>Türkiye 2023–2026.</b> TCMB'nin Enflasyon Raporları 2024'ten beri işgücü piyasasının ana göstergelerin ima ettiği kadar sıkı olmayabileceğini yazıyor. 2025-III raporunun kutusuna göre 2025'in ilk yarısında atıl işgücündeki artışın %61'i potansiyel işgücünden geldi; TCMB, ümitsiz işgücünün çoğunun düşük eğitimli ve iş deneyimi sınırlı kişilerden oluştuğunu, yılgınlığın ana etken olmadığını belirtiyor (TCMB 2025, s. 39–41). Aynı rapora göre 2024'te saatler bütün sektörlerde, en çok kayıt dışı çalışanlarda düştü (s. 24–25). Duvan (2026, s. 810–813) zamana bağlı eksik istihdamda 2024Q1'de yapısal bir kırılma buluyor; sonrasında büyüme yeterli süreli iş yaratmıyor. Betam (Gürsel ve Tanrıverdi 2026) 2025'teki işsizlik düşüşünün katılımın düşmesinden geldiğini yazıyor. TCMB Başkanı'nın 6 Ekim 2026 sunumu da işgücü piyasasının manşet işsizlik oranının ima ettiğinden daha az sıkı olduğunu, ilan başına başvuru sayısının 2023'ten sonra yükseldiğini gösteriyor (TCMB 2026, s. 16).</p>
+<p><b>Emek arzı ve saatler.</b> Türkiye'de kocanın istemsiz iş kaybı kadının işgücüne girme olasılığını artırıyor (Karaoğlan ve Ökten 2015); 1994 krizinde ek işçi etkisi baskın görünüyor (Başlevent ve Onaran 2003). Pandemide işten çıkarma yasağı ayarlamayı saatlere ve kayıt dışı çalışanlara kaydırdı (Hızıroğlu Aygün, Köksal ve Uysal 2022). Asgari ücret artışları geçmişte istihdamdan çok saatleri ve kayıt dışılığı etkiledi (Gürcihan Yüncüler ve Yüncüler 2016).</p>
+<p><b>Makro çerçeve.</b> Palley'nin varlık fiyatı enflasyonuyla büyüme modelinde talebin motoru ücretler değil borçlanma ve varlık fiyatlarıdır; motor durunca istihdamsız toparlanmalar gelir (Palley 2010, s. 16–17, 23). Palley saatlerden ve eksik istihdamdan söz etmiyor; modeli atıl işgücüne bağlamak bu çalışmanın katkısı olabilir. Summers (2014, s. 67) 2007 öncesi ABD'de tatmin edici görünen istihdamın sürdürülebilir olmadığını ve konut balonuyla hane borcuna bağlı olduğunu yazar. Histerezis literatürü talep şoklarının kalıcı izinin çoğunlukla işgücünden çıkışla oluştuğunu gösterir (Ball 2014; Yagan 2019). Türkiye'nin 2021 sonrası modeli üzerine çalışmalar istihdamın reel ücret ve emek payı pahasına korunduğunu vurgular (Akçay 2023; Orhangazi ve Yeldan 2023).</p>
+<p><b>Boşluk.</b> Türkiye'de 2021–2025'te işsizlik ile atıl işgücünün ayrışmasını nedensel olarak açıklayan hakemli bir çalışma bulunamadı; negatif reel faizin çalışma saatleri ve eksik istihdam üzerindeki etkisi gelişmekte olan ülkeler için ampirik olarak çalışılmamış.</p>
+
+<h2>6. Sonuç</h2>
+<p>Negatif reel faizin indirim evresi istihdam yoğundu ve emek piyasasındaki atıl kapasiteyi azalttı. 2023'ten sonra, özellikle yüksek reel faizli normalleşmede, emek piyasası gevşedi; ama bu gevşeme açık işsizlik olarak değil, kısalan saatlerde, kısmi süreli işlerde ve iş aramayıp çalışmaya hazır bekleyenlerde birikti. İşten ayrılanların çoğu işsiz değil işgücü dışı görünüyor, durağan işsizlik oranı yataylaştı, atıl işgücü oranı yükselmeye devam etti. Bu yıllarda emek piyasasının sıkılığını işsizlik oranından çok atıl işgücü oranı, toplam çalışılan saat ve işgücü akımları ölçüyor.</p>
+
+<div class="voice"><span class="who">Yazarın notu</span>
+<p>Bu bulguların Essay 3'e nasıl gireceğine henüz karar vermedim. Seçenekler arasında büyüme bölümüne bir paragraf ve ek tablo, ayrı bir alt bölüm ya da istihdamı ayrı bir çalışma olarak ele almak var. Hangi seçenek olursa olsun, işsizlik oranındaki düşüşü emek piyasasındaki iyileşme olarak okumamak gerektiğini düşünüyorum.</p>
+</div>
+
+<h2>Ek: Veri notları</h2>
+<ul class="tight">
+<li>2021Q1'de anket yöntemi değişti (AB tüzüğü 2019/1700). Akım serisinde 2021Q1 yok; atıl işgücü bileşenlerinde 2021 öncesiyle düzey karşılaştırması yapılmamalı.</li>
+<li>TÜİK'in eksik istihdam tanımı fiili 40 saat eşiğine dayanıyor; AB tanımı yalnız kısmi süreli çalışanları sayıyor. TÜİK'teki artış AB serisinde ve saatlerde de görüldüğü için yalnız bir tanım etkisi değil.</li>
+<li>Akımlar anketin panel kısmından hesaplanıyor ve stok değişimlerini tam toplamıyor. Başlangıç çeyreği 2021Q2 bir kapanma çeyreği olduğu için indirim evresindeki değişimlerin bir kısmı pandemiden çıkışı yansıtıyor.</li>
+<li>Fiili saatler referans haftasındaki bayramlardan etkilenir; dört çeyrek ortalaması bunu büyük ölçüde giderir.</li>
+<li>Veri, kod ve etkileşimli akım haritası: github.com/necipbulut/turkiye-isgucu-akimlari.</li>
+</ul>
+
+<h2>Kaynakça</h2>
+<div class="refs">
+<p>Akçay, Ü. (2023). Türkiye'de 2002–2023 arası uygulanan para politikalarının ekonomi politiği. <i>ODTÜ Gelişme Dergisi</i>, 50, 195–236.</p>
+<p>Ball, L. (2014). Long-term damage from the Great Recession in OECD countries. <i>European Journal of Economics and Economic Policies: Intervention</i>, 11(2), 149–160.</p>
+<p>Başlevent, C. ve Onaran, Ö. (2003). Are married women in Turkey more likely to become added or discouraged workers? <i>LABOUR</i>, 17(3), 439–458.</p>
+<p>Bell, D. N. F. ve Blanchflower, D. G. (2021). Underemployment in the United States and Europe. <i>ILR Review</i>, 74(1), 56–94.</p>
+<p>Duvan, O. B. (2026). Türkiye'de pandeminin ardından istihdam yapısının dönüşümü: zamana bağlı eksik istihdam üzerinden bir değerlendirme. <i>Mülkiye Dergisi</i>, 50(3), 787–823.</p>
+<p>Elsby, M. W. L., Hobijn, B. ve Şahin, A. (2015). On the importance of the participation margin for labor market fluctuations. <i>Journal of Monetary Economics</i>, 72, 64–82.</p>
+<p>Gürcihan Yüncüler, H. B. ve Yüncüler, Ç. (2016). <i>Minimum wage effects on labor market outcomes in Turkey</i>. TCMB Çalışma Tebliği 16/14.</p>
+<p>Gürsel, S. ve Tanrıverdi, S. (2026). <i>Quarterly labor market outlook: 2025 Q4</i>. Betam, Bahçeşehir Üniversitesi.</p>
+<p>Hızıroğlu Aygün, A., Köksal, S. ve Uysal, G. (2022). <i>Unpacking the effects of Covid-19 on labor market outcomes: evidence from Turkey</i>. ERF Working Paper 1533.</p>
+<p>IMF (2026). <i>Republic of Türkiye: 2025 Article IV Consultation</i>. Country Report No. 26/43.</p>
+<p>ILO (2013). <i>Resolution concerning statistics of work, employment and labour underutilization</i>. 19. Uluslararası Çalışma İstatistikçileri Konferansı.</p>
+<p>Karaoğlan, D. ve Ökten, Ç. (2015). Labor-force participation of married women in Turkey. <i>Emerging Markets Finance and Trade</i>, 51(1), 274–290.</p>
+<p>Okun, A. M. (1973). Upward mobility in a high-pressure economy. <i>Brookings Papers on Economic Activity</i>, 1973(1), 207–261.</p>
+<p>Orhangazi, Ö. ve Yeldan, A. E. (2023). "Türkiye Modeli": 2021 ve sonrası. <i>ODTÜ Gelişme Dergisi</i>, 50, 171–194.</p>
+<p>Palley, T. I. (2010). America's exhausted paradigm. <i>New School Economic Review</i>, 4(1), 15–43.</p>
+<p>Summers, L. H. (2014). U.S. economic prospects: secular stagnation, hysteresis, and the zero lower bound. <i>Business Economics</i>, 49(2), 65–73.</p>
+<p>TCMB (2025). <i>Enflasyon Raporu 2025-III</i>. Mercek Altı 2.1 ve Kutu 2.2.</p>
+<p>TCMB (2026). <i>TBMM Plan ve Bütçe Komisyonu Sunumu</i>, 6 Ekim 2026.</p>
+<p>Yagan, D. (2019). Employment hysteresis from the Great Recession. <i>Journal of Political Economy</i>, 127(5), 2505–2558.</p>
+<p><b>Veri:</b> TÜİK Hanehalkı İşgücü Anketi (TCMB EVDS üzerinden); Eurostat (lfsi_sla_q, lfsi_long_q, lfsi_emp_q, lfsq_egan2, lfsq_eftpt, lfsq_ewhais); TÜİK İşgücü İstatistikleri yıllık bültenleri 2021–2025. Veriler 6 Ekim 2026'da çekildi.</p>
+</div>
+
+</body>
+</html>

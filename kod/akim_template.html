@@ -1,0 +1,551 @@
+<title>İşgücü Akımları Haritası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a working instrument. Controls on top, the three-state map with a reading panel beside it,
+   then a heatmap and two line charts that share one time axis so a column reads straight down. */
+:root {
+  --bg: #f4f3ef;
+  --surface: #fffefb;
+  --ink: #1c1e21;
+  --ink-2: #555a61;
+  --hair: #dcd9d1;
+  --band: #e9e6de;
+  --c-e: #008c84;   /* istihdam */
+  --c-u: #cf5a2e;   /* işsiz */
+  --c-n: #8256ab;   /* işgücü dışı */
+  --div-neg: #3f6fae;
+  --div-mid: #e6e3db;
+  --div-pos: #b8741a;
+  --focus: #1d5fa8;
+  --serif: "STIX Two Text", "Times New Roman", Times, serif;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121417; --surface: #1a1d21; --ink: #e8e6e1; --ink-2: #a6abb2; --hair: #32363c; --band: #24282d;
+    --c-e: #1f9e96; --c-u: #e06a3a; --c-n: #9a78cc;
+    --div-neg: #6290cf; --div-mid: #2c3036; --div-pos: #d89a45; --focus: #7fb0ea;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121417; --surface: #1a1d21; --ink: #e8e6e1; --ink-2: #a6abb2; --hair: #32363c; --band: #24282d;
+  --c-e: #1f9e96; --c-u: #e06a3a; --c-n: #9a78cc;
+  --div-neg: #6290cf; --div-mid: #2c3036; --div-pos: #d89a45; --focus: #7fb0ea;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 40px; display: grid; gap: 18px; }
+header { display: grid; gap: 4px; }
+.kicker { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(26px, 3.4vw, 34px); line-height: 1.15; margin: 0; text-wrap: balance; }
+.lede { max-width: 70ch; color: var(--ink-2); margin: 2px 0 0; }
+h2 { font-family: var(--serif); font-size: 19px; font-weight: 700; margin: 0; text-wrap: balance; }
+.card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; min-width: 0; }
+.sub { color: var(--ink-2); font-size: 13.5px; margin: 2px 0 10px; max-width: 80ch; }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
+.btn { font: 500 13.5px var(--sans); color: var(--ink); background: var(--surface); border: 1px solid var(--hair); border-radius: 5px; padding: 6px 11px; cursor: pointer; }
+.btn:hover { border-color: var(--ink-2); }
+.btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:focus-visible, input:focus-visible, svg [tabindex]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.play { min-width: 92px; }
+.slider { display: flex; align-items: center; gap: 10px; flex: 1 1 260px; min-width: 0; }
+.slider input { flex: 1 1 auto; min-width: 0; accent-color: var(--ink); }
+.qlabel { font: 500 18px var(--mono); min-width: 6.2ch; text-align: right; }
+.seg { display: inline-flex; border: 1px solid var(--hair); border-radius: 5px; overflow: hidden; }
+.seg .btn { border: 0; border-radius: 0; }
+.seg .btn + .btn { border-left: 1px solid var(--hair); }
+.jumps { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: var(--ink-2); }
+.jumps .btn { padding: 4px 8px; font: 500 12.5px var(--mono); }
+
+/* stage */
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 18px; }
+@media (max-width: 900px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.diagram svg { width: 100%; height: auto; display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-2); margin-top: 6px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 14px; height: 10px; border-radius: 2px; display: inline-block; }
+.sw.hatch { background: repeating-linear-gradient(135deg, var(--ink-2) 0 1.5px, transparent 1.5px 4px); border: 1px solid var(--ink-2); }
+.panel { display: grid; gap: 14px; align-content: start; }
+.panel h3 { font: 500 22px var(--mono); margin: 0; }
+.panel .when { color: var(--ink-2); font-size: 13px; margin-top: -2px; }
+.stocks, .rates { display: grid; gap: 6px; margin: 0; }
+.row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: baseline; font-variant-numeric: tabular-nums; }
+.row dt { color: var(--ink-2); }
+.row dd { margin: 0; font-weight: 600; }
+.row .in { font-weight: 400; color: var(--ink-2); font-size: 12.5px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: 1px; }
+.split { display: grid; gap: 5px; }
+.split .t { font-size: 13px; color: var(--ink-2); }
+.bar { display: flex; height: 22px; border-radius: 3px; overflow: hidden; gap: 2px; background: var(--surface); }
+.bar div { display: flex; align-items: center; padding-inline: 6px; font-size: 12px; font-weight: 600; color: #fff; white-space: nowrap; transition: flex-basis .35s ease; min-width: 0; overflow: hidden; }
+.bar .to-u { background: var(--c-u); }
+.bar .to-n { background: var(--c-n); }
+.bar .to-e { background: var(--c-e); }
+.note { font-size: 12.5px; color: var(--ink-2); border-top: 1px solid var(--hair); padding-top: 10px; }
+.msg { font-size: 13px; color: var(--c-u); min-height: 1.2em; }
+
+/* time charts */
+.scroll { overflow-x: auto; }
+.scroll svg { display: block; width: 100%; min-width: 700px; height: auto; }
+.time-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--ink-2); margin-top: 6px; align-items: center; }
+.grad { width: 120px; height: 10px; border-radius: 2px; background: linear-gradient(90deg, var(--div-neg), var(--div-mid), var(--div-pos)); display: inline-block; }
+svg text { fill: var(--ink); font-family: var(--sans); }
+svg .muted { fill: var(--ink-2); }
+svg .num { font-variant-numeric: tabular-nums; }
+.cell { cursor: pointer; }
+.hit { cursor: pointer; }
+#tip { position: fixed; z-index: 20; pointer-events: none; background: var(--ink); color: var(--surface); font-size: 12.5px; line-height: 1.4; padding: 6px 9px; border-radius: 4px; max-width: 280px; }
+footer { font-size: 12.5px; color: var(--ink-2); display: grid; gap: 6px; max-width: 95ch; }
+footer p { margin: 0; }
+footer a { color: var(--focus); }
+@media (prefers-reduced-motion: reduce) { .bar div { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Türkiye · 15–74 yaş · çeyreklik · 2014Q1–2026Q2</div>
+    <h1>İşgücü akımları haritası</h1>
+    <p class="lede">Her çeyrek istihdam, işsizlik ve işgücü dışı arasında kaç kişinin yer değiştirdiğini gösterir. Zamanda ilerlemek için Oynat'a bas, kaydırıcıyı çek ya da aşağıdaki ısı haritasında bir çeyreğe tıkla.</p>
+  </header>
+
+  <div class="controls card" role="group" aria-label="Zaman ve görünüm">
+    <button class="btn" id="prev" type="button" aria-label="Önceki çeyrek">◀</button>
+    <button class="btn play" id="play" type="button">Oynat</button>
+    <button class="btn" id="next" type="button" aria-label="Sonraki çeyrek">▶</button>
+    <div class="slider">
+      <label for="q" class="kicker" style="letter-spacing:.04em">Çeyrek</label>
+      <input id="q" type="range" min="0" max="1" step="1" value="0">
+      <output id="qout" class="qlabel" for="q">—</output>
+    </div>
+    <div class="seg" role="group" aria-label="Ok kalınlığı">
+      <button class="btn" id="m-count" type="button" aria-pressed="true">Kişi</button>
+      <button class="btn" id="m-rate" type="button" aria-pressed="false">Oran</button>
+    </div>
+    <div class="seg" role="group" aria-label="Akım türü">
+      <button class="btn" id="v-gross" type="button" aria-pressed="true">Brüt</button>
+      <button class="btn" id="v-net" type="button" aria-pressed="false">Net</button>
+    </div>
+    <div class="jumps" id="jumps"><span>Önemli çeyrekler:</span></div>
+  </div>
+
+  <div class="stage">
+    <section class="card diagram" aria-labelledby="dtitle">
+      <h2 id="dtitle">Bu çeyrekte kim nereye geçti?</h2>
+      <p class="sub" id="dsub">Daire alanı stoku, ok kalınlığı bir önceki çeyrekten bu çeyreğe geçen kişi sayısını gösterir.</p>
+      <svg id="map" viewBox="0 0 720 470" role="img" aria-label="İstihdam, işsiz ve işgücü dışı arasında çeyreklik geçişler"></svg>
+      <div class="msg" id="msg"></div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--c-e)"></i>İstihdam</span>
+        <span><i class="sw" style="background:var(--c-u)"></i>İşsiz</span>
+        <span><i class="sw" style="background:var(--c-n)"></i>İşgücü dışı</span>
+        <span>Ok rengi: gidilen durum</span>
+        <span><i class="sw hatch"></i>Taralı: atıl işgücüne giren kısım</span>
+      </div>
+    </section>
+
+    <aside class="card panel" aria-live="polite">
+      <div>
+        <h3 id="p-q">—</h3>
+        <div class="when" id="p-when"></div>
+      </div>
+      <dl class="stocks" id="p-stocks"></dl>
+      <dl class="rates" id="p-rates"></dl>
+      <div class="split">
+        <div class="t">İşten ayrılanlar nereye gitti?</div>
+        <div class="bar" id="b-sep"></div>
+      </div>
+      <div class="split">
+        <div class="t">İşsizlikten çıkanlar nereye gitti?</div>
+        <div class="bar" id="b-une"></div>
+      </div>
+      <div class="split">
+        <div class="t">İşgücü dışından çıkanlar nereye gitti?</div>
+        <div class="bar" id="b-ina"></div>
+      </div>
+      <p class="note">Atıl işgücü burada AB tanımlı: işsiz + kısmi süreli çalışıp daha fazla çalışmak isteyen + çalışmaya hazır ama iş aramayan (ve iş arayıp hemen başlayamayan). TÜİK eksik istihdamı 40 saat eşiğiyle ölçtüğü için TÜİK'in oranı daha yüksek.</p>
+    </aside>
+  </div>
+
+  <section class="card" aria-labelledby="htitle">
+    <h2 id="htitle">Altı geçiş, zaman içinde</h2>
+    <p class="sub">Her hücre bir çeyrek. Renk, geçiş oranının 2014–2019 ortalamasından ne kadar saptığını gösterir: turuncu daha yüksek, mavi daha düşük. Bir hücreye tıklayınca yukarıdaki harita o çeyreğe gider.</p>
+    <div class="scroll"><svg id="heat" role="img" aria-label="Altı geçiş oranının 2014–2026 ısı haritası"></svg></div>
+    <div class="time-legend"><span>2014–2019 ortalamasına göre</span><span>−%50</span><i class="grad"></i><span>+%50</span><span><i class="sw hatch"></i>veri yok (anket yöntemi değişti)</span><span><i class="sw" style="background:var(--band)"></i>NRIR dönemi</span></div>
+  </section>
+
+  <section class="card" aria-labelledby="ltitle">
+    <h2 id="ltitle">İşsizlik, durağan işsizlik ve atıl işgücü</h2>
+    <p class="sub">Durağan işsizlik: o çeyrekte biten dört çeyreğin geçiş oranları sabit kalsaydı işsizlik oranının gideceği düzey. Gerçekleşen oran ona doğru çekilir.</p>
+    <div class="scroll"><svg id="lines" role="img" aria-label="İşsizlik oranı, durağan işsizlik oranı ve atıl işgücü oranı"></svg></div>
+    <div class="time-legend" id="leg1"></div>
+  </section>
+
+  <section class="card" aria-labelledby="ptitle">
+    <h2 id="ptitle">Katılım ve çalışmak isteyenler</h2>
+    <p class="sub">Katılım oranı, çalışmak isteyenlerin oranından iş aramayıp çalışmaya hazır olanların oranı çıkarılarak bulunur. 2024'ten sonra ikisi ayrışıyor.</p>
+    <div class="scroll"><svg id="part" role="img" aria-label="Katılım oranı ve çalışmak isteyenlerin oranı"></svg></div>
+    <div class="time-legend" id="leg2"></div>
+  </section>
+
+  <footer>
+    <p><b>Kaynak:</b> Eurostat lfsi_long_q, lfsi_emp_q, lfsi_sla_q (TÜİK Hanehalkı İşgücü Anketi), 15–74 yaş, mevsimsellikten arındırılmış; 6 Ekim 2026'da çekildi.</p>
+    <p>Akımlar anketin panel kısmından hesaplanır: bir çeyrekte görüşülen kişinin bir önceki çeyrekteki durumuyla karşılaştırılması. Bu yüzden akımlar stok değişimlerini tam olarak toplamaz. 2021Q1'de anket yöntemi değişti; o çeyrek için akım verisi yok ve öncesiyle düzey karşılaştırması dikkatle yapılmalı.</p>
+    <p>Gri bant NRIR dönemi (2021Q3–2024Q2), kesikli çizgi politika dönüşü (2023Q2 sonu). Ayrıntılı analiz: <a href="isgucu_akimlari_raporu.pdf">rapor (PDF)</a> · <a href="./">vitrin sayfası</a>.</p>
+  </footer>
+</div>
+<div id="tip" role="tooltip" hidden></div>
+
+<script>
+(function () {
+  "use strict";
+  const D = /*__DATA__*/null;
+  const Q = D.quarters, BASE = D.base, NQ = Q.length;
+  const nf0 = new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 0 });
+  const nf1 = new Intl.NumberFormat("tr-TR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const mil = v => nf1.format(v / 1000) + " milyon";
+  const pct = v => "%" + nf1.format(v);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const $ = id => document.getElementById(id);
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  const FL = [
+    { k: "EU", from: "E", to: "U", lab: "İstihdam → işsiz" },
+    { k: "EN", from: "E", to: "N", lab: "İstihdam → işgücü dışı" },
+    { k: "UE", from: "U", to: "E", lab: "İşsiz → istihdam" },
+    { k: "UN", from: "U", to: "N", lab: "İşsiz → işgücü dışı" },
+    { k: "NE", from: "N", to: "E", lab: "İşgücü dışı → istihdam" },
+    { k: "NU", from: "N", to: "U", lab: "İşgücü dışı → işsiz" }
+  ];
+  const PAIRS = [["EU", "UE"], ["EN", "NE"], ["UN", "NU"]];
+  const NAME = { E: "İstihdam", U: "İşsiz", N: "İşgücü dışı" };
+  const COLV = { E: "var(--c-e)", U: "var(--c-u)", N: "var(--c-n)" };
+  const POS = { E: { x: 170, y: 320 }, N: { x: 550, y: 320 }, U: { x: 360, y: 96 } };
+  const qi = s => Q.findIndex(q => q.q === s);
+
+  // scales
+  const maxStock = Math.max(...Q.map(q => Math.max(q.E || 0, q.N || 0)));
+  const R_MAX = 108;
+  const rad = v => R_MAX * Math.sqrt(Math.max(v, 0) / maxStock);
+  const withF = Q.filter(q => q.f);
+  const maxFlow = Math.max(...withF.flatMap(q => Object.values(q.f)));
+  const maxRate = 40;
+  let maxNet = 1;
+  withF.forEach(q => PAIRS.forEach(([a, b]) => { maxNet = Math.max(maxNet, Math.abs(q.f[a] - q.f[b])); }));
+  const W_MAX = 26;
+
+  const S = { i: NQ - 1, mode: "count", view: "gross", playing: false, timer: null };
+  let shown = null;   // values currently drawn (tweened)
+
+  // ------------------------------------------------------------------ diagram skeleton
+  const map = $("map");
+  const defs = el("defs", {}, map);
+  ["E", "U", "N"].forEach(s => {
+    const p = el("pattern", { id: "h-" + s, width: 6, height: 6, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" }, defs);
+    el("rect", { width: 6, height: 6, fill: "var(--surface)" }, p);
+    el("line", { x1: 0, y1: 0, x2: 0, y2: 6, stroke: COLV[s], "stroke-width": 2.2 }, p);
+  });
+  const gNodes = el("g", {}, map), gFlows = el("g", {}, map), gLab = el("g", {}, map);
+  const nodes = {};
+  ["E", "U", "N"].forEach(s => {
+    const g = el("g", {}, gNodes);
+    nodes[s] = {
+      outer: el("circle", { fill: "color-mix(in srgb, " + COLV[s] + " 13%, var(--surface))", stroke: COLV[s], "stroke-width": 1.6 }, g),
+      inner: el("circle", { fill: "url(#h-" + s + ")", stroke: COLV[s], "stroke-width": 1, "stroke-dasharray": "3 2" }, g),
+      name: el("text", { "text-anchor": "middle", "font-weight": 600, "font-size": 16 }, gLab),
+      val: el("text", { "text-anchor": "middle", "font-size": 14, class: "num" }, gLab),
+      sub: el("text", { "text-anchor": "middle", "font-size": 11.5, class: "muted num" }, gLab)
+    };
+  });
+  const arrows = {};
+  FL.forEach(f => {
+    const g = el("g", { class: "hit" }, gFlows);
+    arrows[f.k] = {
+      g, path: el("path", { fill: "none", stroke: COLV[f.to], "stroke-linecap": "butt", opacity: 0.88 }, g),
+      head: el("path", { fill: COLV[f.to], opacity: 0.95 }, g),
+      label: el("text", { "text-anchor": "middle", "font-size": 12.5, "font-weight": 600, class: "num", "paint-order": "stroke", stroke: "var(--surface)", "stroke-width": 4, "stroke-linejoin": "round" }, gLab)
+    };
+    g.addEventListener("pointermove", ev => tipFlow(ev, f));
+    g.addEventListener("pointerleave", hideTip);
+  });
+  const netArrows = {};
+  PAIRS.forEach(([a, b]) => {
+    const g = el("g", { class: "hit" }, gFlows);
+    netArrows[a] = { g, path: el("path", { fill: "none", "stroke-linecap": "butt", opacity: 0.9 }, g), head: el("path", {}, g),
+      label: el("text", { "text-anchor": "middle", "font-size": 12.5, "font-weight": 600, class: "num", "paint-order": "stroke", stroke: "var(--surface)", "stroke-width": 4, "stroke-linejoin": "round" }, gLab) };
+  });
+
+  function geom(A, B, rA, rB, w, side, delta, bend) {
+    const a = POS[A], b = POS[B];
+    const dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+    const nx = -dy / dist, ny = dx / dist;
+    const sx = a.x + rA * Math.cos(th + side * delta), sy = a.y + rA * Math.sin(th + side * delta);
+    const ex = b.x + rB * Math.cos(th + Math.PI - side * delta), ey = b.y + rB * Math.sin(th + Math.PI - side * delta);
+    const cx = (sx + ex) / 2 + nx * side * bend * dist, cy = (sy + ey) / 2 + ny * side * bend * dist;
+    let tx = ex - cx, ty = ey - cy; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+    const L = Math.max(9, w * 1.25), hw = Math.max(6, w * 0.95);
+    const bx = ex - tx * L, by = ey - ty * L;
+    const shaft = `M${sx.toFixed(1)},${sy.toFixed(1)} Q${cx.toFixed(1)},${cy.toFixed(1)} ${(ex - tx * L * 0.85).toFixed(1)},${(ey - ty * L * 0.85).toFixed(1)}`;
+    const head = `M${ex.toFixed(1)},${ey.toFixed(1)} L${(bx - ty * hw).toFixed(1)},${(by + tx * hw).toFixed(1)} L${(bx + ty * hw).toFixed(1)},${(by - tx * hw).toFixed(1)} Z`;
+    const lt = 0.35, a0 = (1 - lt) * (1 - lt), a1 = 2 * lt * (1 - lt), a2 = lt * lt;  // label near the origin, so labels of inner arrows spread out
+    const mx = a0 * sx + a1 * cx + a2 * ex, my = a0 * sy + a1 * cy + a2 * ey;
+    const off = side === 0 ? -(w / 2 + 10) : side * (w / 2 + 11);
+    return { shaft, head, lx: mx + nx * off, ly: my + ny * off + 4 };
+  }
+
+  function target(i) {
+    const q = Q[i];
+    return { E: q.E, U: q.U, N: q.N, PLF: q.PLF, PT: q.PT, f: q.f ? { ...q.f } : null, r: q.r ? { ...q.r } : null };
+  }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function mix(A, B, t) {
+    const o = {};
+    ["E", "U", "N", "PLF", "PT"].forEach(k => { o[k] = lerp(A[k], B[k], t); });
+    if (A.f && B.f) { o.f = {}; o.r = {}; FL.forEach(f => { o.f[f.k] = lerp(A.f[f.k], B.f[f.k], t); o.r[f.k] = lerp(A.r[f.k], B.r[f.k], t); }); }
+    else { o.f = B.f; o.r = B.r; }
+    return o;
+  }
+
+  function drawMap(v) {
+    const R = { E: rad(v.E), U: rad(v.U), N: rad(v.N) };
+    const IN = { E: rad(v.PT), N: rad(v.PLF), U: R.U };
+    ["E", "U", "N"].forEach(s => {
+      const n = nodes[s], p = POS[s], r = R[s];
+      n.outer.setAttribute("cx", p.x); n.outer.setAttribute("cy", p.y); n.outer.setAttribute("r", r.toFixed(1));
+      if (s === "U") {
+        n.inner.setAttribute("cx", p.x); n.inner.setAttribute("cy", p.y); n.inner.setAttribute("r", Math.max(r - 0.5, 0).toFixed(1));
+        n.name.setAttribute("x", p.x); n.name.setAttribute("y", (p.y - r - 26).toFixed(1)); n.name.textContent = NAME[s];
+        n.val.setAttribute("x", p.x); n.val.setAttribute("y", (p.y - r - 9).toFixed(1)); n.val.textContent = mil(v.U);
+        n.sub.textContent = "";
+      } else {
+        const ri = IN[s], cyi = p.y + r - ri - 3;
+        n.inner.setAttribute("cx", p.x); n.inner.setAttribute("cy", cyi.toFixed(1)); n.inner.setAttribute("r", ri.toFixed(1));
+        const subY = cyi - ri - 7, valY = Math.min(p.y - 6, subY - 20), nameY = valY - 20;
+        n.name.setAttribute("x", p.x); n.name.setAttribute("y", nameY.toFixed(1)); n.name.textContent = NAME[s];
+        n.val.setAttribute("x", p.x); n.val.setAttribute("y", valY.toFixed(1)); n.val.textContent = mil(s === "E" ? v.E : v.N);
+        n.sub.setAttribute("x", p.x); n.sub.setAttribute("y", subY.toFixed(1));
+        n.sub.textContent = s === "E" ? "eksik çalışan: " + nf1.format(v.PT / 1000) + " m" : "çalışmaya hazır: " + nf1.format(v.PLF / 1000) + " m";
+      }
+    });
+    const has = !!v.f;
+    const gross = S.view === "gross";
+    FL.forEach(f => {
+      const a = arrows[f.k];
+      a.g.style.display = has && gross ? "" : "none"; a.label.style.display = has && gross ? "" : "none";
+      if (!has || !gross) return;
+      const val = S.mode === "count" ? v.f[f.k] : v.r[f.k];
+      const w = Math.max(1.5, S.mode === "count" ? val / maxFlow * W_MAX : val / maxRate * W_MAX);
+      const g = geom(f.from, f.to, R[f.from] + 3, R[f.to] + 3, w, 1, 0.3, 0.16);
+      a.path.setAttribute("d", g.shaft); a.path.setAttribute("stroke-width", w.toFixed(1)); a.head.setAttribute("d", g.head);
+      a.label.setAttribute("x", g.lx.toFixed(1)); a.label.setAttribute("y", g.ly.toFixed(1));
+      a.label.textContent = S.mode === "count" ? nf0.format(val) + " bin" : pct(val);
+    });
+    PAIRS.forEach(([a, b]) => {
+      const n = netArrows[a];
+      const on = has && !gross;
+      n.g.style.display = on ? "" : "none"; n.label.style.display = on ? "" : "none";
+      if (!on) return;
+      const net = v.f[a] - v.f[b];
+      const fa = FL.find(x => x.k === a), fb = FL.find(x => x.k === b);
+      const f = net >= 0 ? fa : fb;
+      const w = Math.max(1.5, Math.abs(net) / maxNet * 20);
+      const g = geom(f.from, f.to, R[f.from] + 3, R[f.to] + 3, w, 0, 0, 0);
+      n.path.setAttribute("d", g.shaft); n.path.setAttribute("stroke-width", w.toFixed(1)); n.path.setAttribute("stroke", COLV[f.to]);
+      n.head.setAttribute("d", g.head); n.head.setAttribute("fill", COLV[f.to]);
+      n.label.setAttribute("x", g.lx.toFixed(1)); n.label.setAttribute("y", g.ly.toFixed(1));
+      n.label.textContent = "net " + nf0.format(Math.abs(net)) + " bin";
+      n.g.onpointermove = ev => showTip(ev, `<b>${Q[S.i].q}</b> · net akım<br>${f.lab}: ${nf0.format(Math.abs(net))} bin kişi<br><span style="opacity:.8">${fa.lab} ${nf0.format(v.f[a])} bin, ${fb.lab} ${nf0.format(v.f[b])} bin</span>`);
+      n.g.onpointerleave = hideTip;
+    });
+    $("msg").textContent = has ? "" : "Bu çeyrek için akım verisi yok: 2021Q1'de anket yöntemi değişti. Daireler stokları gösteriyor.";
+  }
+
+  // ------------------------------------------------------------------ panel
+  function bar(node, parts) {
+    const tot = parts.reduce((s, p) => s + p.v, 0);
+    node.innerHTML = "";
+    parts.forEach(p => {
+      const d = document.createElement("div");
+      d.className = p.cls; const share = tot ? p.v / tot * 100 : 0;
+      d.style.flexBasis = share.toFixed(1) + "%";
+      d.textContent = (share >= 14 ? p.lab + " " : "") + "%" + nf0.format(share);
+      d.title = p.lab + ": %" + nf1.format(share) + " (" + nf0.format(p.v) + " bin)";
+      node.appendChild(d);
+    });
+  }
+  function panel(i) {
+    const q = Q[i], prev = i > 0 ? Q[i - 1].q : null;
+    $("p-q").textContent = q.q;
+    $("p-when").textContent = prev ? `${prev} → ${q.q} geçişleri` : "";
+    $("p-stocks").innerHTML =
+      `<div class="row"><dt><i class="dot" style="background:var(--c-e)"></i>İstihdam</dt><dd>${mil(q.E)}</dd></div>` +
+      `<div class="row"><dt class="in">&emsp;içinde eksik çalışan (kısmi süreli)</dt><dd class="in">${mil(q.PT)}</dd></div>` +
+      `<div class="row"><dt><i class="dot" style="background:var(--c-u)"></i>İşsiz</dt><dd>${mil(q.U)}</dd></div>` +
+      `<div class="row"><dt><i class="dot" style="background:var(--c-n)"></i>İşgücü dışı</dt><dd>${mil(q.N)}</dd></div>` +
+      `<div class="row"><dt class="in">&emsp;içinde çalışmaya hazır</dt><dd class="in">${mil(q.PLF)}</dd></div>`;
+    const r = (lab, v) => `<div class="row"><dt>${lab}</dt><dd>${v == null ? "—" : pct(v)}</dd></div>`;
+    $("p-rates").innerHTML = r("İşsizlik oranı", q.u) + r("Durağan işsizlik (4 çeyrek)", q.ustar) + r("Atıl işgücü oranı (AB)", q.slack) + r("Katılım oranı", q.lfpr) + r("Çalışmak isteyenler", q.want);
+    if (q.f) {
+      bar($("b-sep"), [{ v: q.f.EU, cls: "to-u", lab: "işsizliğe" }, { v: q.f.EN, cls: "to-n", lab: "işgücü dışına" }]);
+      bar($("b-une"), [{ v: q.f.UE, cls: "to-e", lab: "işe" }, { v: q.f.UN, cls: "to-n", lab: "işgücü dışına" }]);
+      bar($("b-ina"), [{ v: q.f.NE, cls: "to-e", lab: "işe" }, { v: q.f.NU, cls: "to-u", lab: "iş aramaya" }]);
+    } else { ["b-sep", "b-une", "b-ina"].forEach(id => { $(id).innerHTML = '<div style="color:var(--ink-2);font-weight:400">veri yok</div>'; }); }
+  }
+
+  // ------------------------------------------------------------------ shared time axis
+  const LW = 176, CW = 13, TOP = 26, RIGHT = 70;
+  const TW = LW + NQ * CW + RIGHT;
+  const xc = i => LW + i * CW + CW / 2;
+  const nrir0 = qi("2021Q3"), nrir1 = qi("2024Q2"), turn = qi("2023Q2");
+  function axisTop(svg, h) {
+    el("rect", { x: LW + nrir0 * CW, y: TOP - 6, width: (nrir1 - nrir0 + 1) * CW, height: h - TOP + 6, fill: "var(--band)" }, svg);
+    el("line", { x1: LW + (turn + 1) * CW, x2: LW + (turn + 1) * CW, y1: TOP - 6, y2: h, stroke: "var(--ink-2)", "stroke-width": 1, "stroke-dasharray": "3 3" }, svg);
+    Q.forEach((q, i) => { if (q.q.endsWith("Q1")) { const t = el("text", { x: LW + i * CW, y: 14, "font-size": 11.5, class: "muted" }, svg); t.textContent = q.q.slice(0, 4); } });
+    const t2 = el("text", { x: LW + nrir0 * CW + 2, y: TOP - 9, "font-size": 10.5, class: "muted" }, svg); t2.textContent = "";
+  }
+  const cursors = [];
+  function addCursor(svg, y0, y1) { const c = el("rect", { y: y0, height: y1 - y0, width: CW, fill: "none", stroke: "var(--ink)", "stroke-width": 1.5, rx: 2, "pointer-events": "none" }, svg); cursors.push(c); }
+
+  // heatmap
+  const heat = $("heat"); const RH = 24, HH = TOP + FL.length * RH + 6;
+  heat.setAttribute("viewBox", `0 0 ${TW} ${HH}`);
+  const hp = el("pattern", { id: "h-na", width: 5, height: 5, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" }, el("defs", {}, heat));
+  el("rect", { width: 5, height: 5, fill: "var(--surface)" }, hp);
+  el("line", { x1: 0, y1: 0, x2: 0, y2: 5, stroke: "var(--ink-2)", "stroke-width": 1.2 }, hp);
+  axisTop(heat, HH - 4);
+  const cells = [];
+  FL.forEach((f, j) => {
+    const y = TOP + j * RH;
+    const t = el("text", { x: LW - 10, y: y + RH / 2 + 4, "text-anchor": "end", "font-size": 12.5 }, heat); t.textContent = f.lab;
+    el("rect", { x: 6, y: y + RH / 2 - 4, width: 8, height: 8, rx: 2, fill: COLV[f.to] }, heat);
+    Q.forEach((q, i) => {
+      const c = el("rect", { x: LW + i * CW + 0.5, y: y + 1, width: CW - 1, height: RH - 2, rx: 1.5, class: "cell" }, heat);
+      c.addEventListener("click", () => go(i));
+      c.addEventListener("pointermove", ev => {
+        const v = q.r ? q.r[f.k] : null;
+        showTip(ev, v == null ? `<b>${q.q}</b> · ${f.lab}<br>veri yok` :
+          `<b>${q.q}</b> · ${f.lab}<br>%${nf1.format(v)} (2014–19 ort. %${nf1.format(BASE[f.k])}; ${v >= BASE[f.k] ? "+" : "−"}%${nf0.format(Math.abs(v / BASE[f.k] - 1) * 100)})<br>${nf0.format(q.f[f.k])} bin kişi`);
+      });
+      c.addEventListener("pointerleave", hideTip);
+      cells.push({ c, i, k: f.k });
+    });
+  });
+  addCursor(heat, TOP, TOP + FL.length * RH);
+
+  function hexToRgb(h) { h = h.replace("#", ""); if (h.length === 3) h = h.split("").map(x => x + x).join(""); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+  function colorHeat() {
+    const neg = hexToRgb(css("--div-neg")), mid = hexToRgb(css("--div-mid")), pos = hexToRgb(css("--div-pos"));
+    cells.forEach(({ c, i, k }) => {
+      const q = Q[i];
+      if (!q.r) { c.setAttribute("fill", "url(#h-na)"); return; }
+      const d = Math.max(-0.5, Math.min(0.5, q.r[k] / BASE[k] - 1)) / 0.5;
+      const to = d < 0 ? neg : pos, t = Math.abs(d);
+      const rgb = mid.map((m, j) => Math.round(m + (to[j] - m) * t));
+      c.setAttribute("fill", `rgb(${rgb.join(",")})`);
+    });
+  }
+
+  // line charts
+  function lineChart(svgId, legId, series, y0, y1, ticks) {
+    const svg = $(svgId), H = 210, PB = 24, ph = H - TOP - PB;
+    svg.setAttribute("viewBox", `0 0 ${TW} ${H}`);
+    axisTop(svg, H - PB);
+    const yv = v => TOP + (1 - (v - y0) / (y1 - y0)) * ph;
+    ticks.forEach(t => {
+      el("line", { x1: LW, x2: LW + NQ * CW, y1: yv(t), y2: yv(t), stroke: "var(--hair)", "stroke-width": 1 }, svg);
+      const tx = el("text", { x: LW - 8, y: yv(t) + 4, "text-anchor": "end", "font-size": 11.5, class: "muted num" }, svg); tx.textContent = "%" + t;
+    });
+    const leg = $(legId);
+    series.forEach(s => {
+      let d = "", pen = false, last = null;
+      Q.forEach((q, i) => { const v = q[s.key]; if (v == null) { pen = false; return; } d += (pen ? "L" : "M") + xc(i).toFixed(1) + "," + yv(v).toFixed(1); pen = true; last = i; });
+      el("path", { d, fill: "none", stroke: s.color, "stroke-width": 2, "stroke-dasharray": s.dash || "none", "stroke-linejoin": "round" }, svg);
+      if (last != null) { const t = el("text", { x: xc(last) + 6, y: yv(Q[last][s.key]) + 4 + (s.dy || 0), "font-size": 11.5, "font-weight": 600, class: "num" }, svg); t.textContent = "%" + nf1.format(Q[last][s.key]); }
+      const sp = document.createElement("span");
+      sp.innerHTML = `<svg width="22" height="10" aria-hidden="true"><line x1="0" y1="5" x2="22" y2="5" stroke="${s.color}" stroke-width="2" stroke-dasharray="${s.dash || "none"}"/></svg>${s.lab}`;
+      sp.style.display = "inline-flex"; sp.style.alignItems = "center"; sp.style.gap = "6px";
+      leg.appendChild(sp);
+    });
+    // hover and click layer
+    Q.forEach((q, i) => {
+      const r = el("rect", { x: LW + i * CW, y: TOP, width: CW, height: ph, fill: "transparent", class: "cell" }, svg);
+      r.addEventListener("click", () => go(i));
+      r.addEventListener("pointermove", ev => showTip(ev, `<b>${q.q}</b><br>` + series.map(s => `${s.lab}: ${q[s.key] == null ? "—" : "%" + nf1.format(q[s.key])}`).join("<br>")));
+      r.addEventListener("pointerleave", hideTip);
+    });
+    addCursor(svg, TOP, TOP + ph);
+  }
+  lineChart("lines", "leg1", [
+    { key: "slack", lab: "Atıl işgücü oranı (AB tanımı)", color: "var(--c-n)" },
+    { key: "u", lab: "İşsizlik oranı", color: "var(--c-u)" },
+    { key: "ustar", lab: "Durağan işsizlik oranı", color: "var(--ink)", dash: "5 3", dy: 12 }
+  ], 0, 30, [0, 10, 20, 30]);
+  lineChart("part", "leg2", [
+    { key: "want", lab: "Çalışmak isteyenler (işgücü + çalışmaya hazır)", color: "var(--c-n)" },
+    { key: "lfpr", lab: "Katılım oranı (işgücü)", color: "var(--c-e)" }
+  ], 46, 66, [50, 55, 60, 65]);
+
+  // ------------------------------------------------------------------ tooltip
+  const tip = $("tip");
+  function showTip(ev, html) { tip.innerHTML = html; tip.hidden = false; const pad = 14; let x = ev.clientX + pad, y = ev.clientY + pad; const r = tip.getBoundingClientRect(); if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad; if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad; tip.style.left = x + "px"; tip.style.top = y + "px"; }
+  function hideTip() { tip.hidden = true; }
+  function tipFlow(ev, f) {
+    const q = Q[S.i]; if (!q.f) return;
+    showTip(ev, `<b>${q.q}</b> · ${f.lab}<br>${nf0.format(q.f[f.k])} bin kişi; çıkılan durumun %${nf1.format(q.r[f.k])}'i<br><span style="opacity:.8">2014–19 ortalaması %${nf1.format(BASE[f.k])}</span>`);
+  }
+
+  // ------------------------------------------------------------------ state and animation
+  let anim = null;
+  function render(i, animate) {
+    const tgt = target(i);
+    panel(i);
+    $("qout").textContent = Q[i].q; $("q").value = i;
+    cursors.forEach(c => c.setAttribute("x", LW + i * CW));
+    if (!shown || !animate || reduce || !shown.f || !tgt.f) { shown = tgt; drawMap(shown); return; }
+    const from = shown, t0 = performance.now(), dur = 420;
+    if (anim) cancelAnimationFrame(anim);
+    const step = now => { const t = Math.min(1, (now - t0) / dur), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; shown = mix(from, tgt, e); drawMap(shown); if (t < 1) anim = requestAnimationFrame(step); else { shown = tgt; drawMap(shown); } };
+    anim = requestAnimationFrame(step);
+  }
+  function go(i, animate = true) { S.i = Math.max(0, Math.min(NQ - 1, i)); render(S.i, animate); }
+  function stop() { S.playing = false; clearTimeout(S.timer); $("play").textContent = "Oynat"; $("play").setAttribute("aria-pressed", "false"); }
+  function tick() { if (!S.playing) return; if (S.i >= NQ - 1) { stop(); return; } go(S.i + 1); S.timer = setTimeout(tick, reduce ? 900 : 650); }
+  $("play").addEventListener("click", () => { if (S.playing) { stop(); return; } if (S.i >= NQ - 1) go(0, false); S.playing = true; $("play").textContent = "Durdur"; $("play").setAttribute("aria-pressed", "true"); S.timer = setTimeout(tick, 350); });
+  $("prev").addEventListener("click", () => { stop(); go(S.i - 1); });
+  $("next").addEventListener("click", () => { stop(); go(S.i + 1); });
+  const slider = $("q"); slider.max = NQ - 1;
+  slider.addEventListener("input", () => { stop(); go(+slider.value); });
+  function setMode(m) { S.mode = m; $("m-count").setAttribute("aria-pressed", m === "count"); $("m-rate").setAttribute("aria-pressed", m === "rate"); drawMap(shown); $("dsub").textContent = subText(); }
+  function setView(v) { S.view = v; $("v-gross").setAttribute("aria-pressed", v === "gross"); $("v-net").setAttribute("aria-pressed", v === "net"); $("m-rate").disabled = v === "net"; if (v === "net" && S.mode === "rate") S.mode = "count"; $("m-count").setAttribute("aria-pressed", S.mode === "count"); $("m-rate").setAttribute("aria-pressed", S.mode === "rate"); drawMap(shown); $("dsub").textContent = subText(); }
+  function subText() {
+    if (S.view === "net") return "Net görünüm: her çift için iki yöndeki akımın farkı. Ok, net akışın yönünü; kalınlık büyüklüğünü (bin kişi) gösterir.";
+    return S.mode === "count" ? "Daire alanı stoku, ok kalınlığı bir önceki çeyrekten bu çeyreğe geçen kişi sayısını (bin) gösterir."
+      : "Daire alanı stoku, ok kalınlığı geçiş oranını gösterir: çıkılan durumdaki kişilerin yüzde kaçı o çeyrekte yer değiştirdi.";
+  }
+  $("m-count").addEventListener("click", () => setMode("count"));
+  $("m-rate").addEventListener("click", () => setMode("rate"));
+  $("v-gross").addEventListener("click", () => setView("gross"));
+  $("v-net").addEventListener("click", () => setView("net"));
+  [["2019Q4", "pandemi öncesi"], ["2021Q2", "NRIR öncesi"], ["2022Q4", "farkın dibi"], ["2024Q2", "NRIR sonu"], ["2026Q2", "son veri"]].forEach(([q, t]) => {
+    const i = qi(q); if (i < 0) return;
+    const b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = q; b.title = t;
+    b.addEventListener("click", () => { stop(); go(i); }); $("jumps").appendChild(b);
+  });
+  document.addEventListener("keydown", e => { if (e.target.tagName === "INPUT") return; if (e.key === "ArrowLeft") { stop(); go(S.i - 1); } if (e.key === "ArrowRight") { stop(); go(S.i + 1); } });
+
+  colorHeat();
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", colorHeat);
+  new MutationObserver(colorHeat).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  render(S.i, false);
+})();
+</script>
