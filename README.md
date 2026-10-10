@@ -6,7 +6,8 @@ işgücü özdeşlikleri, anketin panel kısmından hesaplanan işgücü akımla
 
 **[Raporu oku (PDF)](rapor/isgucu_akimlari_raporu.pdf)** ·
 **[Vitrin sayfası](https://necipbulut.github.io/turkiye-isgucu-akimlari/)** ·
-**[Etkileşimli akım haritası](https://necipbulut.github.io/turkiye-isgucu-akimlari/akim-haritasi.html)**
+**[Etkileşimli akım haritası](https://necipbulut.github.io/turkiye-isgucu-akimlari/akim-haritasi.html)** ·
+**[Akım videosu, 2010–2026](https://necipbulut.github.io/turkiye-isgucu-akimlari/#video)**
 
 Necip Bulut · "Three Essays on Monetary Economics" doktora tezinin üçüncü makalesi için arka plan çalışması · Ekim 2026
 
@@ -25,6 +26,14 @@ Necip Bulut · "Three Essays on Monetary Economics" doktora tezinin üçüncü m
    hazır bekleyen kişiler: 2022 sonundan 2026 başına 2,45 milyon kişi arttı.
 5. Durağan işsizlik oranı 2024 ortasından beri %8,2–8,6 aralığında yatay; akımlar artık işsizliği aşağı itmiyor.
 6. Kişi başı haftalık çalışma 43,3 saatten 41,7 saate indi; kısmi süreli çalışanların payı %10,9'dan %14,1'e çıktı.
+
+## Akımlar 2010'dan 2026'ya (video)
+
+[![Türkiye'de işgücü akımları, 2010–2026: videoyu izlemek için tıklayın](video/isgucu_akimlari_poster.png)](https://necipbulut.github.io/turkiye-isgucu-akimlari/#video)
+
+*38 saniyelik video: üç durum arasındaki akımlar 65 çeyrek boyunca; sağda işsizlik, atıl işgücü ve durağan işsizlik ile
+akımların yönü zamanla çiziliyor. Veri çeyreklik; çeyrekler arası geçiş görsel yumuşatmadır. Dosya:
+[`video/isgucu_akimlari_2010_2026.mp4`](video/isgucu_akimlari_2010_2026.mp4).*
 
 ## Grafiklerle
 
@@ -71,14 +80,15 @@ Bütün grafikler (12 adet, PNG ve SVG) [`figurler/`](figurler/) klasöründe.
 | `figurler/` | Rapordaki 12 grafik (PNG, SVG) |
 | `veri/` | İşlenmiş tablolar (CSV) ve akım haritasının verisi (`akim_data.json`) |
 | `kod/` | Veri çekme, analiz, grafik ve sayfa üretim betikleri (Python) |
-| `docs/` | GitHub Pages: vitrin sayfası ve etkileşimli akım haritası |
+| `video/` | Akım videosu (MP4, 2010–2026) ve kapak görseli |
+| `docs/` | GitHub Pages: vitrin sayfası, akım videosu ve etkileşimli akım haritası |
 
 ## Yeniden üretim
 
 Betikler Python 3 (pandas, numpy, matplotlib, evds) ile çalışır. Sıra: `e01_fetch.py` (EVDS ve Eurostat'tan veri;
 EVDS için kendi API anahtarınızı `.env` dosyasında `EVDS_KEY=` olarak tanımlayın, depoda anahtar yok) →
 `e02_analysis.py` (tablolar; GSYH için EVDS'ten zincirlenmiş hacim serisi gerekir) → `e05_flows_data.py`
-(akım haritası verisi) → `e06_report_figs.py` (rapor grafikleri). Betikler tez klasör yapısında yazıldı; dosya
+(akım haritası verisi) → `e06_report_figs.py` (rapor grafikleri) → `e08_video.py` (akım videosu; ffmpeg gerekir). Betikler tez klasör yapısında yazıldı; dosya
 yolları gerekirse uyarlanmalı. İşlenmiş çıktılar `veri/` klasöründe olduğu için grafikler `e06_report_figs.py`
 ile doğrudan yeniden üretilebilir.
 

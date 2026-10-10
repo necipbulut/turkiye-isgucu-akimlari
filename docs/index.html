@@ -57,6 +57,8 @@ section p { margin: 0; }
 .voice { font-family: var(--sans); font-size: 16px; line-height: 1.55; background: var(--voice); border-left: 3px solid var(--n); padding: 12px 16px; border-radius: 0 6px 6px 0; }
 .voice .who { display: block; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--n); margin-bottom: 3px; }
 .voice p { margin: 0; }
+.video { background: #ffffff; border: 1px solid var(--hair); border-radius: 8px; padding: 10px; }
+.video video { width: 100%; height: auto; display: block; border-radius: 4px; background: #fbfaf7; }
 .map-teaser { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; align-items: center; background: var(--paper); border: 1px solid var(--hair); border-radius: 8px; padding: 18px; }
 @media (max-width: 760px) { .map-teaser { grid-template-columns: minmax(0, 1fr); } }
 .map-teaser h2 { margin: 0 0 6px; font-size: 24px; }
@@ -80,6 +82,7 @@ footer { font: 400 13.5px var(--sans); color: var(--ink-2); border-top: 1px soli
     <div class="cta">
       <a class="primary" href="isgucu_akimlari_raporu.pdf">Raporu oku (PDF, 12 sayfa)</a>
       <a href="akim-haritasi.html">Etkileşimli akım haritası</a>
+      <a href="#video">Akım videosu</a>
       <a href="https://github.com/necipbulut/turkiye-isgucu-akimlari">Veri ve kod</a>
     </div>
   </header>
@@ -114,6 +117,19 @@ footer { font: 400 13.5px var(--sans); color: var(--ink-2); border-top: 1px soli
     <p class="col">Stoklar durgun görünse de altında büyük bir hareket var. Her çeyrek işsizlerin yaklaşık üçte biri işgücü dışına çıkıyor; istihdam ile işgücü dışı arasında her yönde iki milyona yakın kişi yer değiştiriyor. Daire alanı stoku, ok kalınlığı o çeyrekte geçen kişi sayısını gösteriyor.</p>
     <div class="plate"><img src="fig/R05_akim_diyagramlari.png" alt="Dört çeyrekte istihdam, işsiz ve işgücü dışı arasındaki akımlar" loading="lazy"></div>
     <div class="cap"><b>Şekil 2.</b> İstihdam, işsiz ve işgücü dışı arasındaki çeyreklik akımlar (bin kişi). Taralı kısımlar atıl işgücüne giren gruplar. Kaynak: Eurostat lfsi_long_q.</div>
+  </section>
+
+  <section id="video">
+    <span class="num">2b · Video</span>
+    <h2 class="sec">Akımlar 2010'dan 2026'ya</h2>
+    <p class="col">Aynı diyagram 65 çeyrek boyunca. Sağdaki grafikler zamanla kendini çiziyor: üstte işsizlik, atıl işgücü ve durağan işsizlik oranı; altta işten ayrılanların işsizliğe, işsizlikten çıkanların işgücü dışına gidenlerinin payı. Önemli çeyreklerde video kısa bir süre duruyor.</p>
+    <div class="video">
+      <video controls playsinline preload="metadata" poster="video/isgucu_akimlari_poster.png" aria-label="Türkiye'de işgücü akımları, 2010–2026, animasyon">
+        <source src="video/isgucu_akimlari_2010_2026.mp4" type="video/mp4">
+        Tarayıcınız videoyu oynatamıyor; <a href="video/isgucu_akimlari_2010_2026.mp4">MP4 dosyasını indirin</a>.
+      </video>
+    </div>
+    <div class="cap"><b>Video.</b> Türkiye'de işgücü akımları, 2010Q2–2026Q2 (38 saniye). Veri çeyreklik (Eurostat lfsi_long_q, 15–74 yaş, mevsimsellikten arındırılmış); çeyrekler arasındaki geçiş görsel yumuşatmadır, sayılar yalnız çeyreklerde veriye karşılık gelir. 2014 öncesi düzeyler yöntem farkı nedeniyle tam karşılaştırılamaz; 2021Q1 akım verisi yok.</div>
   </section>
 
   <div class="map-teaser">
