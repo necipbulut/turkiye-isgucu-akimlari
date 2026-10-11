@@ -4,8 +4,10 @@
 Data: Eurostat lfsi_long_q (transitions, thousand persons and rates), lfsi_emp_q (labour force, employment,
 population) and lfsi_sla_q (underemployed part-time, potential labour force); Türkiye, 15-74, seasonally
 adjusted. The data are quarterly; frames between quarters are a visual interpolation, and the quarter label
-always names the nearest observed quarter. 2021Q1 has no transition data (questionnaire change): the arrows
-fade out and back in around it. Output: ../video/isgucu_akimlari_2010_2026.mp4 and a poster PNG.
+always names the nearest observed quarter. 2021Q1 has no transition data (questionnaire change) and is dropped
+from the data set, so the video runs without a break; 4-quarter averages use the adjacent available quarters.
+Only two periods are named: LNRIR (low and negative real interest rates, 2017-2022, as in Essay 2) and NRIR
+(negative real interest rates, 2021Q3-2024Q2). Output: ../video/isgucu_akimlari_2010_2026.mp4 and a poster PNG.
 """
 from pathlib import Path
 
@@ -59,6 +61,12 @@ st["PLF"], st["PT"] = w["NSEEK_AVL"] + w["SEEK_NAVL"], w["UEMP_PT"]
 st["u"] = st.U / st.ACT * 100
 st["slack"] = (st.U + st.PT + st.PLF) / (st.ACT + st.PLF) * 100
 
+# drop quarters without transition data (only 2021Q1), so the series and the video run without a gap
+MISSING = cnt.index[cnt.isna().any(axis=1)]
+print("dropped quarters:", [str(q) for q in MISSING])
+IDX = IDX.drop(MISSING)
+cnt, rate, st = cnt.loc[IDX], rate.loc[IDX], st.loc[IDX]
+
 
 def steady(p):
     eu, en, ue, un, ne, nu = (p[k] / 100 for k in ["EU", "EN", "UE", "UN", "NE", "NU"])
@@ -79,7 +87,7 @@ qi = lambda s: LAB.index(s)
 
 # ------------------------------------------------------------------ frame schedule
 FPS, FPQ, HOLD = 30, 14, 22
-holds = {qi(q) for q in ["2014Q1", "2018Q3", "2020Q2", "2021Q2", "2022Q4", "2023Q2", "2024Q2", "2026Q2"]}
+holds = {qi(q) for q in ["2017Q1", "2021Q3", "2022Q4", "2024Q2", "2026Q2"]}
 xs = []
 for i in range(NQ):
     if i in holds:
@@ -109,14 +117,7 @@ def at(col, x):
 def flows_at(x):
     i = int(np.floor(x)); f = ease(x - i)
     A, B = cnt.iloc[i], cnt.iloc[min(i + 1, NQ - 1)]
-    oa, ob = (0.0 if A.isna().any() else 1.0), (0.0 if B.isna().any() else 1.0)
-    if oa == 0 and ob == 0:
-        return None, 0.0
-    if oa == 0:
-        A = B
-    if ob == 0:
-        B = A
-    return (A + (B - A) * f), oa + (ob - oa) * f
+    return (A + (B - A) * f), 1.0
 
 
 # ------------------------------------------------------------------ figure skeleton
@@ -124,14 +125,14 @@ fig = plt.figure(figsize=(12.8, 7.2), dpi=100, facecolor=BG)
 fig.text(0.03, 0.935, "Türkiye'de işgücü akımları, 2010–2026", fontsize=24, fontweight="bold", color=INK)
 fig.text(0.03, 0.895, "Her çeyrek istihdam, işsizlik ve işgücü dışı arasında yer değiştiren kişiler (bin kişi, bir önceki çeyrekten)",
          fontsize=12.5, color=GREY)
-fig.text(0.03, 0.025, "Kaynak: Eurostat lfsi_long_q, lfsi_emp_q, lfsi_sla_q (TÜİK HİA), 15–74 yaş, mevsimsellikten arındırılmış. "
-         "Veri çeyreklik; çeyrekler arası geçiş görsel yumuşatmadır.  Necip Bulut · github.com/necipbulut/turkiye-isgucu-akimlari",
-         fontsize=9.5, color=GREY)
+for yy, txt in [(0.070, "LNRIR: düşük ve negatif reel faiz dönemi, 2017–2022  ·  NRIR: negatif reel faiz dönemi, 2021Q3–2024Q2"),
+                (0.044, "Kaynak: Eurostat lfsi_long_q, lfsi_emp_q, lfsi_sla_q (TÜİK HİA), 15–74 yaş, mevsimsellikten arındırılmış. "
+                        "Veri çeyreklik; çeyrekler arası geçiş görsel yumuşatmadır."),
+                (0.018, "2021Q1 (akım verisi yok) veri setinden çıkarıldı. 2014 öncesi düzeyler eski yöntem ve nüfus projeksiyonuna göre.  "
+                        "Necip Bulut · github.com/necipbulut/turkiye-isgucu-akimlari")]:
+    fig.text(0.03, yy, txt, fontsize=9.6, color=GREY)
 qtext = fig.text(0.535, 0.80, "", fontsize=34, fontweight="bold", color=INK, ha="right", family="DejaVu Sans Mono")
 ptext = fig.text(0.535, 0.765, "", fontsize=13, color=GREY, ha="right")
-etext = fig.text(0.03, 0.085, "", fontsize=13.5, color=INK, va="bottom",
-                 bbox=dict(boxstyle="round,pad=0.45", fc="#f3eef8", ec="none"))
-ntext = fig.text(0.03, 0.135, "", fontsize=11, color=GREY, va="bottom")
 
 axm = fig.add_axes([0.0, 0.12, 0.58, 0.74])
 axm.set_xlim(-1.85, 1.85)
@@ -168,31 +169,34 @@ for key, a, b in FLW:
 x_all = np.arange(NQ)
 ax1 = fig.add_axes([0.635, 0.53, 0.335, 0.31], facecolor=BG)
 ax2 = fig.add_axes([0.635, 0.14, 0.335, 0.29], facecolor=BG)
+l0, l1 = qi("2017Q1"), qi("2022Q4")
 nr0, nr1 = qi("2021Q3"), qi("2024Q2")
 for ax in (ax1, ax2):
-    ax.axvspan(nr0 - 0.5, nr1 + 0.5, color=BAND, lw=0, zorder=0)
-    ax.axvline(qi("2014Q1") - 0.5, color="#aaa", lw=0.7, ls=":", zorder=0)
+    ax.axvspan(l0 - 0.5, l1 + 0.5, color="#efece5", lw=0, zorder=0)
+    ax.axvspan(nr0 - 0.5, nr1 + 0.5, color="#dcd8cd", lw=0, zorder=0)
+    ax.text(l0, 1.0, "LNRIR", transform=ax.get_xaxis_transform(), fontsize=9.5, color=GREY, va="bottom")
+    ax.text(nr0, 1.0, "NRIR", transform=ax.get_xaxis_transform(), fontsize=9.5, color=GREY, va="bottom")
     ax.set_xlim(-0.5, NQ - 0.5)
     yt = [qi(f"{y}Q1") for y in range(2011, 2027, 3)]
     ax.set_xticks(yt, [str(y) for y in range(2011, 2027, 3)])
     ax.grid(axis="y", color="#e3e1dc", lw=0.6)
-ax1.set_ylim(0, 30)
-ax1.set_title("Oranlar, %", loc="left", fontsize=13, fontweight="bold")
-ax2.set_ylim(15, 60)
-ax2.set_title("Akımların yönü, % (dört çeyrek ortalaması)", loc="left", fontsize=13, fontweight="bold")
+ax1.set_ylim(0, 36)
+ax1.set_title("İşsizlik ve atıl işgücü (%)", loc="left", fontsize=13, fontweight="bold", pad=14)
+ax2.set_ylim(15, 70)
+ax2.set_title("Geçişlerin yönü (%, dört çeyrek ortalaması)", loc="left", fontsize=13, fontweight="bold", pad=14)
 L = {}
-for ax, key, c, ls, lab in [(ax1, "slack", C_N, "-", "Atıl işgücü (AB)"), (ax1, "u", C_U, "-", "İşsizlik"),
-                            (ax1, "ustar", INK, (0, (4, 2)), "Durağan işsizlik"),
-                            (ax2, "ue_n", C_N, "-", "İşsizlikten çıkanların işgücü dışına gidenleri"),
-                            (ax2, "sep_u", C_U, "-", "İşten ayrılanların işsizliğe gidenleri")]:
+for ax, key, c, ls, lab in [(ax1, "slack", C_N, "-", "Atıl işgücü oranı (AB tanımı)"), (ax1, "u", C_U, "-", "İşsizlik oranı"),
+                            (ax1, "ustar", INK, (0, (4, 2)), "Durağan işsizlik oranı"),
+                            (ax2, "ue_n", C_N, "-", "İşsizlikten çıkanlar içinde işgücü dışına geçenlerin payı"),
+                            (ax2, "sep_u", C_U, "-", "İşten ayrılanlar içinde işsiz kalanların payı")]:
     L[key], = ax.plot([], [], color=c, ls=ls, lw=2.2, label=lab)
     L[key + "_dot"], = ax.plot([], [], "o", color=c, ms=6)
-ax1.legend(loc="upper left", fontsize=10, frameon=False, ncol=3, handlelength=1.6, columnspacing=0.9)
+ax1.legend(loc="upper left", fontsize=10, frameon=False, ncol=2, handlelength=1.6, columnspacing=0.9)
 ax2.legend(loc="upper left", fontsize=10, frameon=False, handlelength=1.6)
 cur1 = ax1.axvline(0, color=INK, lw=1.0, alpha=0.6)
 cur2 = ax2.axvline(0, color=INK, lw=1.0, alpha=0.6)
 
-EVENTS = [("2010Q2", "2013Q4", "2014 öncesi: eski yöntem ve nüfus projeksiyonu; düzeyler tam karşılaştırılamaz"),
+EVENTS_UNUSED = [("2010Q2", "2013Q4", "2014 öncesi: eski yöntem ve nüfus projeksiyonu; düzeyler tam karşılaştırılamaz"),
           ("2018Q3", "2019Q3", "2018: kur krizi"),
           ("2020Q2", "2020Q4", "2020: pandemi, işten çıkarma yasağı ve kısa çalışma ödeneği"),
           ("2021Q1", "2021Q1", "2021Q1: anket yöntemi değişti, akım verisi yok"),
@@ -200,9 +204,7 @@ EVENTS = [("2010Q2", "2013Q4", "2014 öncesi: eski yöntem ve nüfus projeksiyon
           ("2023Q1", "2023Q2", "Şubat 2023 depremi ve EYT ile erken emeklilik"),
           ("2023Q3", "2024Q2", "Haziran 2023 politika dönüşü: sıkılaştırma evresi"),
           ("2024Q3", "2026Q2", "Yüksek reel faiz: normalleşme")]
-PHASE = [("2010Q2", "2017Q2", "Sermaye girişi yılları"), ("2017Q3", "2019Q4", "Kredi garantisi ve kur krizi"),
-         ("2020Q1", "2021Q2", "Pandemi"), ("2021Q3", "2023Q2", "NRIR · indirim evresi"),
-         ("2023Q3", "2024Q2", "NRIR · sıkılaştırma evresi"), ("2024Q3", "2026Q2", "Normalleşme")]
+PHASE = [("2017Q1", "2021Q2", "LNRIR"), ("2021Q3", "2022Q4", "LNRIR · NRIR"), ("2023Q1", "2024Q2", "NRIR")]
 
 
 def label_for(i, table):
@@ -242,8 +244,6 @@ def draw(x):
     F, alpha = flows_at(x)
     for key, a, b in FLW:
         ar, lb = arrows[key], labels[key]
-        if F is None or alpha <= 0.01:
-            ar.set_visible(False); lb.set_visible(False); continue
         v = F[key]
         lw = 0.8 + v / maxF * 9.5
         (ax_, ay_), (bx_, by_) = POS[a], POS[b]
@@ -264,9 +264,6 @@ def draw(x):
         lb.set_alpha(alpha); lb.get_bbox_patch().set_alpha(0.85 * alpha); lb.set_visible(True)
     qtext.set_text(LAB[i_near])
     ptext.set_text(label_for(i_near, PHASE))
-    ev = label_for(i_near, EVENTS)
-    etext.set_text(ev); etext.set_visible(bool(ev) and not ev.startswith("2014 öncesi"))
-    ntext.set_text(ev if ev.startswith("2014 öncesi") else ""); ntext.set_visible(ev.startswith("2014 öncesi"))
     # progressive lines up to x
     for key in ["slack", "u", "ustar", "ue_n", "sep_u"]:
         y = st[key].values.copy()
@@ -292,7 +289,7 @@ with writer.saving(fig, str(out), dpi=100):
             print("frame", n)
 draw(float(NQ - 1))
 fig.savefig(VID / "isgucu_akimlari_poster.png", dpi=100, facecolor=BG)
-for q in ["2012Q2", "2020Q2", "2021Q1", "2022Q4"]:
+for q in ["2012Q2", "2018Q2", "2021Q2", "2022Q4"]:
     draw(float(qi(q)))
     fig.savefig(VID / f"_check_{q}.png", dpi=60, facecolor=BG)
 print("written", out, round(out.stat().st_size / 1e6, 1), "MB")

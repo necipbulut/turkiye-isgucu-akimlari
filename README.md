@@ -31,8 +31,9 @@ Necip Bulut · "Three Essays on Monetary Economics" doktora tezinin üçüncü m
 
 [![Türkiye'de işgücü akımları, 2010–2026: videoyu izlemek için tıklayın](video/isgucu_akimlari_poster.png)](https://necipbulut.github.io/turkiye-isgucu-akimlari/#video)
 
-*38 saniyelik video: üç durum arasındaki akımlar 65 çeyrek boyunca; sağda işsizlik, atıl işgücü ve durağan işsizlik ile
-akımların yönü zamanla çiziliyor. Veri çeyreklik; çeyrekler arası geçiş görsel yumuşatmadır. Dosya:
+*Video: üç durum arasındaki akımlar 2010Q2–2026Q2; sağda işsizlik, atıl işgücü ve durağan işsizlik ile geçişlerin
+yönü zamanla çiziliyor. Yalnız LNRIR (2017–2022) ve NRIR (2021Q3–2024Q2) dönemleri adlandırılıyor. Veri çeyreklik;
+çeyrekler arası geçiş görsel yumuşatmadır; akım verisi olmayan 2021Q1 veri setinden çıkarıldı. Dosya:
 [`video/isgucu_akimlari_2010_2026.mp4`](video/isgucu_akimlari_2010_2026.mp4).*
 
 ## Grafiklerle
